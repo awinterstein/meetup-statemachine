@@ -41,9 +41,10 @@
 
 #include <peripherals.h>
 #include <pin_mux.h>
-#include <sdk_drivers/CharDisplay.h>
-#include <sdk_drivers/ParallelBus.h>
-#include <sdk_drivers/Pin.h>
+
+#include <CharDisplay.h>
+#include <ParallelBus.h>
+#include <Pin.h>
 
 /* TODO: insert other definitions and declarations here. */
 

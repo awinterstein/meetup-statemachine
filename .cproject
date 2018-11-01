@@ -42,10 +42,9 @@
 								<option id="gnu.cpp.compiler.option.preprocessor.undef.927156020" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef" useByScannerDiscovery="false"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1789508980" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../board/MK28FN2M0xxx15"/>
+									<listOptionValue builtIn="false" value="../device_drivers"/>
 									<listOptionValue builtIn="false" value="../sdk_drivers/MK28FN2M0xxx15"/>
 									<listOptionValue builtIn="false" value="../source"/>
-									<listOptionValue builtIn="false" value="../"/>
-									<listOptionValue builtIn="false" value="../drivers"/>
 									<listOptionValue builtIn="false" value="../CMSIS"/>
 									<listOptionValue builtIn="false" value="../utilities"/>
 									<listOptionValue builtIn="false" value="../startup"/>
@@ -100,11 +99,10 @@
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.undef.symbol.1217953457" name="Undefined symbols (-U)" superClass="gnu.c.compiler.option.preprocessor.undef.symbol" useByScannerDiscovery="false"/>
 								<option id="gnu.c.compiler.option.include.paths.1602129450" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="../device_drivers"/>
 									<listOptionValue builtIn="false" value="../board/MK28FN2M0xxx15"/>
 									<listOptionValue builtIn="false" value="../sdk_drivers/MK28FN2M0xxx15"/>
 									<listOptionValue builtIn="false" value="../source"/>
-									<listOptionValue builtIn="false" value="../"/>
-									<listOptionValue builtIn="false" value="../drivers"/>
 									<listOptionValue builtIn="false" value="../CMSIS"/>
 									<listOptionValue builtIn="false" value="../utilities"/>
 									<listOptionValue builtIn="false" value="../startup"/>
