@@ -23,109 +23,75 @@
 #ifndef DRIVERS_CHARDISPLAY_H_
 #define DRIVERS_CHARDISPLAY_H_
 
+#include <array>
 #include <stdint.h>
 
 namespace DRVR {
 
 namespace {
+#warning "Replace by something that makes more sense"
 	static void delayMicroSec (uint32_t uSec)
 	{
 		for (uint64_t volatile i = uSec * 1000 ; i ; i--) {}
 	}
 }
 
-/*
-TextLCD::TextLCD(PinName rs, PinName e, PinName d4, PinName d5,
-                 PinName d6, PinName d7, LCDType type) : _rs(rs),
-        _e(e), _d(d4, d5, d6, d7),
-        _type(type) {
-
-    _e  = 1;
-    _rs = 0;            // command mode
-
-    wait(0.015);        // Wait 15ms to ensure powered up
-
-    // send "Display Settings" 3 times (Only top nibble of 0x30 as we've got 4-bit bus)
-    for (int i=0; i<3; i++) {
-        writeByte(0x3);
-        wait(0.00164);  // this command takes 1.64ms, so wait for it
-    }
-    writeByte(0x2);     // 4-bit mode
-    wait(0.000040f);    // most instructions take 40us
-
-    writeCommand(0x28); // Function set 001 BW N F - -
-    writeCommand(0x0C);
-    writeCommand(0x6);  // Cursor Direction and Display Shift : 0000 01 CD S (CD 0-left, 1-right S(hift) 0-no, 1-yes
-    cls();
-}
-*/
-
 template <typename registerSelect, typename enablaData, typename dataBus>
 class CharDisplay {
 public:
-	CharDisplay();
-	virtual ~CharDisplay();
+	using DisplayLine = std::array<const char, 16>;
 
-	static int32_t putc(int32_t c);
+	static void init()
+	{
+		enablaData::set();
+	    registerSelect::clr();
+	    DRVR::delayMicroSec(15000u);
 
-	#warning "Provide a print function"
-	//int32_t printf(const char* format, ...);
+	    for (int32_t i=3; i>0; i--)
+	    {
+	        writeByte(0x3);
+	        DRVR::delayMicroSec(1640u);
+	    }
+
+	    writeByte(0x2);
+	    DRVR::delayMicroSec(40u);
+
+	    writeCommand(0x28);
+	    writeCommand(0x0C);
+	    writeCommand(0x6);
+	    cls();
+	}
 
 	static void cls()
 	{
 		writeCommand(0x01);
 		DRVR::delayMicroSec(1640u);
-		locate(0, 0);
+	}
+
+	static void writeTopLine(const DisplayLine& line)
+	{
+		writeLine(line, 0u);
+	}
+
+	static void writeBottomLine(const DisplayLine& line)
+	{
+		writeLine(line, 1u);
 	}
 
 private:
-    static void locate (uint32_t column, uint32_t row)
-    {
-    	column_ = column;
-    	row_ = row;
-    }
-
-    // int _putc (int value)
-	static int32_t putCharOnDisplay (int32_t value)
+	static int32_t address (const uint32_t column, const uint32_t row)
 	{
-		if (value == '\n') {
-			column_ = 0;
-			row_++;
-			if (row_ >= rows()) {
-				row_ = 0;
-			}
-		}
-		else
-		{
-			character(column_, row_, value);
-			column_++;
-			if (column_ >= columns()) {
-				column_ = 0;
-				row_++;
-				if (row_ >= rows()) {
-					row_ = 0;
-				}
-			}
-		}
-		return value;
+		return 0x80 + (row * 0x40) + column;
 	}
 
-	static int32_t address (uint32_t column, uint32_t row)
-	{
-		return 0x80 + (row_ * 0x40) + column_;
-	}
-
-	static void character (uint32_t column, uint32_t row, int32_t c)
+	static void character (const uint32_t column, const uint32_t row, const int32_t c)
 	{
 		const auto cursorSet = address(column, row);
 		writeCommand(cursorSet);
 		writeData(c);
 	}
 
-	static uint32_t columns() { return 16; }
-	static uint32_t rows() { return 2; }
-
-	static void writeByte (int32_t value)
+	static void writeByte (const int32_t value)
 	{
 		dataBus::setBytes(value >> 4);
 	    delayMicroSec(40);
@@ -140,20 +106,26 @@ private:
 	    enablaData::set();
 	}
 
-	static void writeCommand (int32_t command)
+	static void writeCommand (const int32_t command)
 	{
 		registerSelect::clr();
 		writeByte(command);
 	}
 
-	static void writeData (int32_t data)
+	static void writeData (const int32_t data)
 	{
 		registerSelect::set();
 		writeByte(data);
 	}
 
-	static uint32_t column_;
-	static uint32_t row_;
+	static void writeLine (const DisplayLine& line, uint32_t row)
+	{
+		for (auto& c : line)
+		{
+			const auto column = &c - line.data();
+			character(column, row, c);
+		}
+	}
 };
 
 } /* namespace DRVR */

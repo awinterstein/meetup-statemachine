@@ -69,12 +69,15 @@ int main(void) {
 
     PRINTF("Hello World\n");
 
+    MYLCD::DisplayLine test1 {"0123456789ABCDE"};
+    MYLCD::init();
+    MYLCD::writeTopLine(test1);
+    MYLCD::writeBottomLine(test1);
+
     /* Force the counter to be placed into memory. */
     volatile static int i = 0 ;
-    /* Enter an infinite loop, just incrementing a counter. */
-    LCD_D7::set();
-    LCD_D7::clr();
 
+    /* Enter an infinite loop, just incrementing a counter. */
     while(1) {
         i++ ;
     }
