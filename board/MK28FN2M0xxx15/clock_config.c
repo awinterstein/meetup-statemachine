@@ -41,7 +41,7 @@ processor_version: 4.0.1
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 
-#include <clock_config.h>
+#include "clock_config.h"
 
 /*******************************************************************************
  * Definitions
@@ -94,15 +94,20 @@ void BOARD_InitBootClocks(void)
 name: BOARD_BootClockRUN
 called_from_default_init: true
 outputs:
-- {id: Bus_clock.outFreq, value: 20.97152 MHz}
-- {id: Core_clock.outFreq, value: 20.97152 MHz}
-- {id: Flash_clock.outFreq, value: 10.48576 MHz}
-- {id: FlexBus_clock.outFreq, value: 20.97152 MHz}
+- {id: Bus_clock.outFreq, value: 31.45728 MHz}
+- {id: Core_clock.outFreq, value: 60 MHz, locked: true, accuracy: '0.1'}
+- {id: Flash_clock.outFreq, value: 20.97152 MHz}
+- {id: FlexBus_clock.outFreq, value: 31.45728 MHz}
 - {id: LPO_clock.outFreq, value: 1 kHz}
 - {id: MCGFFCLK.outFreq, value: 32.768 kHz}
-- {id: MCGFLLCLK.outFreq, value: 20.97152 MHz}
-- {id: PLLFLLCLK.outFreq, value: 20.97152 MHz}
-- {id: System_clock.outFreq, value: 20.97152 MHz}
+- {id: MCGFLLCLK.outFreq, value: 62.91456 MHz}
+- {id: PLLFLLCLK.outFreq, value: 62.91456 MHz}
+- {id: System_clock.outFreq, value: 62.91456 MHz}
+settings:
+- {id: MCG.FLL_mul.scale, value: '1920'}
+- {id: SIM.OUTDIV2.scale, value: '2'}
+- {id: SIM.OUTDIV3.scale, value: '2'}
+- {id: SIM.OUTDIV4.scale, value: '3'}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 
@@ -116,7 +121,7 @@ const mcg_config_t mcgConfig_BOARD_BootClockRUN =
         .ircs = kMCG_IrcSlow,                     /* Slow internal reference clock selected */
         .fcrdiv = 0x1U,                           /* Fast IRC divider: divided by 2 */
         .frdiv = 0x0U,                            /* FLL reference clock divider: divided by 1 */
-        .drs = kMCG_DrsLow,                       /* Low frequency range */
+        .drs = kMCG_DrsMidHigh,                   /* Mid-High frequency range */
         .dmx32 = kMCG_Dmx32Default,               /* DCO has a default range of 25% */
         .oscsel = kMCG_OscselOsc,                 /* Selects System Oscillator (OSCCLK) */
         .pll0Config =
@@ -133,7 +138,7 @@ const sim_clock_config_t simConfig_BOARD_BootClockRUN =
         .pllFllDiv = 0,                           /* PLLFLLSEL clock divider divisor: divided by 1 */
         .pllFllFrac = 0,                          /* PLLFLLSEL clock divider fraction: multiplied by 1 */
         .er32kSrc = SIM_OSC32KSEL_OSC32KCLK_CLK,  /* OSC32KSEL select: OSC32KCLK clock */
-        .clkdiv1 = 0x10000U,                      /* SIM_CLKDIV1 - OUTDIV1: /1, OUTDIV2: /1, OUTDIV3: /1, OUTDIV4: /2 */
+        .clkdiv1 = 0x1120000U,                    /* SIM_CLKDIV1 - OUTDIV1: /1, OUTDIV2: /2, OUTDIV3: /2, OUTDIV4: /3 */
     };
 const osc_config_t oscConfig_BOARD_BootClockRUN =
     {
