@@ -47,12 +47,14 @@
 #include <Pin.h>
 
 /* TODO: insert other definitions and declarations here. */
-
+#warning "resolve this address ptr issue"
 using LCD_D7 = DRVR::Pin<GPIOC_BASE, BOARD_INITPINS_LCD_D7_PIN>;
+using LCD_D6 = DRVR::Pin<GPIOC_BASE, BOARD_INITPINS_LCD_D6_PIN>;
+using LCD_D5 = DRVR::Pin<GPIOC_BASE, BOARD_INITPINS_LCD_D5_PIN>;
+using LCD_D4 = DRVR::Pin<GPIOC_BASE, BOARD_INITPINS_LCD_D4_PIN>;
 
-//using MYLCD = DRVR::CharDisplay<TESTPIN1, TESTPIN2, TESTBUS>;
-//template <> uint32_t MYLCD ::column_ = 0;
-//template <> uint32_t MYLCD ::row_ = 0;
+using LCD_DATABUS = DRVR::ParallelBus<LCD_D7, LCD_D6, LCD_D5, LCD_D4>;
+using MYLCD = DRVR::CharDisplay<LCD_D4, LCD_D4, LCD_DATABUS>;
 
 /*
  * @brief   Application entry point.
