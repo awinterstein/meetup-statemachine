@@ -39,11 +39,11 @@
 #include "fsl_debug_console.h"
 /* TODO: insert other include files here. */
 
-#include <drivers/Pin.h>
-#include <drivers/ParallelBus.h>
-#include <drivers/CharDisplay.h>
 #include <peripherals.h>
 #include <pin_mux.h>
+#include <sdk_drivers/CharDisplay.h>
+#include <sdk_drivers/ParallelBus.h>
+#include <sdk_drivers/Pin.h>
 
 /* TODO: insert other definitions and declarations here. */
 
