@@ -8,7 +8,7 @@
 #ifndef DRIVERS_PIN_H_
 #define DRIVERS_PIN_H_
 
-#include <sdk/fsl_gpio.h>
+#include <fsl_gpio.h>
 
 namespace DRVR {
 
