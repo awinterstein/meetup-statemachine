@@ -21,10 +21,10 @@ pin_labels:
  */
 /* clang-format on */
 
+#include <pin_mux.h>
 #include "fsl_common.h"
 #include "fsl_port.h"
 #include "fsl_gpio.h"
-#include "pin_mux.h"
 
 /* FUNCTION ************************************************************************************************************
  *

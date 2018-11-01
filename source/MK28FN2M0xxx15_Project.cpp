@@ -32,11 +32,9 @@
  * @file    MK28FN2M0xxx15_Project.cpp
  * @brief   Application entry point.
  */
+#include <board.h>
+#include <clock_config.h>
 #include <stdio.h>
-#include "board.h"
-#include "peripherals.h"
-#include "pin_mux.h"
-#include "clock_config.h"
 #include "MK28F15.h"
 #include "fsl_debug_console.h"
 /* TODO: insert other include files here. */
@@ -44,6 +42,8 @@
 #include <drivers/Pin.h>
 #include <drivers/ParallelBus.h>
 #include <drivers/CharDisplay.h>
+#include <peripherals.h>
+#include <pin_mux.h>
 
 /* TODO: insert other definitions and declarations here. */
 

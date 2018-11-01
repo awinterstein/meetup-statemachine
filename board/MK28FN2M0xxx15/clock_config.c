@@ -41,7 +41,7 @@ processor_version: 4.0.1
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 
-#include "clock_config.h"
+#include <clock_config.h>
 
 /*******************************************************************************
  * Definitions

@@ -35,8 +35,8 @@
  
 /* This is a template for board specific configuration created by MCUXpresso IDE Project Wizard.*/
 
+#include <board.h>
 #include <stdint.h>
-#include "board.h"
 
 /**
  * @brief Set up and initialize all required blocks and functions related to the board hardware.
