@@ -43,8 +43,8 @@
 #include <pin_mux.h>
 
 #include <CharDisplay.h>
+#include <GPIOPin.h>
 #include <ParallelBus.h>
-#include <PinObject.h>
 
 /* TODO: insert other definitions and declarations here. */
 DECLARE_PIN_AS(BOARD_INITPINS_LCD_D7, LCD_D7);

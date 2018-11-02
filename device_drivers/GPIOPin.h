@@ -1,12 +1,12 @@
 /*
- * Pin.h
+ * GPIOPin.h
  *
  *  Created on: 28 Oct 2018
  *      Author: meetup
  */
 
-#ifndef DRIVERS_PIN_H_
-#define DRIVERS_PIN_H_
+#ifndef DRIVERS_GPIOPIN_H_
+#define DRIVERS_GPIOPIN_H_
 
 #include <fsl_gpio.h>
 
@@ -21,10 +21,10 @@ struct pinInfo {
 	uint32_t   pin_;
 };
 
-#define DECLARE_PIN_AS(Pinname, TypeName)	constexpr Driver::pinInfo CONCAT_EXP(pin, __LINE__) { Pinname##_PORT, Pinname##_GPIO, Pinname##_PIN}; using TypeName = Driver::PinObject<CONCAT_EXP(pin, __LINE__)>;
+#define DECLARE_PIN_AS(Pinname, TypeName)	constexpr Driver::pinInfo CONCAT_EXP(pin, __LINE__) { Pinname##_PORT, Pinname##_GPIO, Pinname##_PIN}; using TypeName = Driver::GPIOPin<CONCAT_EXP(pin, __LINE__)>;
 
 template <const pinInfo& pinInformation>
-class PinObject {
+class GPIOPin {
 public:
 	static void set() { GPIO_WritePinOutput(pinInformation.gpio_, pinInformation.pin_, 1); }
 	static void clr() { GPIO_WritePinOutput(pinInformation.gpio_, pinInformation.pin_, 0); }
@@ -33,4 +33,4 @@ public:
 
 } /* namespace Driver */
 
-#endif /* DRIVERS_PIN_H_ */
+#endif /* DRIVERS_GPIOPIN_H_ */
