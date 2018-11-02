@@ -54,8 +54,8 @@ DECLARE_PIN_AS(BOARD_INITPINS_LCD_D4, LCD_D4);
 DECLARE_PIN_AS(BOARD_INITPINS_LCD_EN, LCD_EN);
 DECLARE_PIN_AS(BOARD_INITPINS_LCD_RS, LCD_RS);
 
-using LCD_DATABUS = Driver::ParallelBus<LCD_D7, LCD_D6, LCD_D5, LCD_D4>;
-using MYLCD = Driver::CharDisplay<LCD_RS, LCD_EN, LCD_DATABUS>;
+using LCD_DATABUS = Driver::ParallelBus<LCD_D4, LCD_D5, LCD_D6, LCD_D7>;
+using DISPLAY = Driver::CharDisplay<LCD_RS, LCD_EN, LCD_DATABUS>;
 
 /*
  * @brief   Application entry point.
@@ -73,14 +73,10 @@ int main(void) {
     volatile static bool lcdtestTrigger = false;
     if (lcdtestTrigger)
     {
-    	MYLCD::DisplayLine test1 {"0123456789ABCDE"};
-    	MYLCD::init();
-    	MYLCD::writeTopLine(test1);
-    	MYLCD::writeBottomLine(test1);
-
-    	LCD_D7::clr();
-    	LCD_D7::set();
-    	LCD_D7::clr();
+    	DISPLAY::DisplayLine test1 {"0123456789ABCDE"};
+    	DISPLAY::init();
+    	DISPLAY::writeTopLine(test1);
+    	DISPLAY::writeBottomLine(test1);
     }
 
     /* Force the counter to be placed into memory. */
