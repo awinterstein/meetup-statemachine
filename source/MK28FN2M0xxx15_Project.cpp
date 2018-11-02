@@ -73,10 +73,9 @@ int main(void) {
     volatile static bool lcdtestTrigger = false;
     if (lcdtestTrigger)
     {
-    	DISPLAY::DisplayLine test1 {"0123456789ABCDE"};
     	DISPLAY::init();
-    	DISPLAY::writeTopLine(test1);
-    	DISPLAY::writeBottomLine(test1);
+    	DISPLAY::writeTopLine("here we go %s", "aaa");
+    	DISPLAY::writeBottomLine("here %u", 123ul);
     }
 
     /* Force the counter to be placed into memory. */
