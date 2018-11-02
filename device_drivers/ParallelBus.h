@@ -8,7 +8,7 @@
 #ifndef DRIVERS_PARALLELBUS_H_
 #define DRIVERS_PARALLELBUS_H_
 
-#include "Pin.h"
+#include "PinObject.h"
 
 namespace DRVR {
 
