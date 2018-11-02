@@ -53,6 +53,20 @@ void BOARD_InitBootPins(void);
 #define BOARD_INITPINS_LCD_D4_PIN 6U     /*!<@brief PORTC pin index: 6 */
                                          /* @} */
 
+/*! @name PORTC19 (coord C7), LCD_RS
+  @{ */
+#define BOARD_INITPINS_LCD_RS_GPIO GPIOC /*!<@brief GPIO device name: GPIOC */
+#define BOARD_INITPINS_LCD_RS_PORT PORTC /*!<@brief PORT device name: PORTC */
+#define BOARD_INITPINS_LCD_RS_PIN 19U    /*!<@brief PORTC pin index: 19 */
+                                         /* @} */
+
+/*! @name PORTB19 (coord D11), LCD_EN
+  @{ */
+#define BOARD_INITPINS_LCD_EN_GPIO GPIOB /*!<@brief GPIO device name: GPIOB */
+#define BOARD_INITPINS_LCD_EN_PORT PORTB /*!<@brief PORT device name: PORTB */
+#define BOARD_INITPINS_LCD_EN_PIN 19U    /*!<@brief PORTB pin index: 19 */
+                                         /* @} */
+
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *
