@@ -32,13 +32,6 @@ void BOARD_InitBootPins(void);
 #define BOARD_INITPINS_LCD_D7_PIN 18U    /*!<@brief PORTC pin index: 18 */
                                          /* @} */
 
-/*! @name PORTC13 (coord B8), LCD_D6
-  @{ */
-#define BOARD_INITPINS_LCD_D6_GPIO GPIOC /*!<@brief GPIO device name: GPIOC */
-#define BOARD_INITPINS_LCD_D6_PORT PORTC /*!<@brief PORT device name: PORTC */
-#define BOARD_INITPINS_LCD_D6_PIN 13U    /*!<@brief PORTC pin index: 13 */
-                                         /* @} */
-
 /*! @name PORTC6 (coord A10), LCD_D4
   @{ */
 #define BOARD_INITPINS_LCD_D4_GPIO GPIOC /*!<@brief GPIO device name: GPIOC */
@@ -65,6 +58,13 @@ void BOARD_InitBootPins(void);
 #define BOARD_INITPINS_LCD_D5_GPIO GPIOB /*!<@brief GPIO device name: GPIOB */
 #define BOARD_INITPINS_LCD_D5_PORT PORTB /*!<@brief PORT device name: PORTB */
 #define BOARD_INITPINS_LCD_D5_PIN 12U    /*!<@brief PORTB pin index: 12 */
+                                         /* @} */
+
+/*! @name PORTB13 (coord E11), LCD_D6
+  @{ */
+#define BOARD_INITPINS_LCD_D6_GPIO GPIOB /*!<@brief GPIO device name: GPIOB */
+#define BOARD_INITPINS_LCD_D6_PORT PORTB /*!<@brief PORT device name: PORTB */
+#define BOARD_INITPINS_LCD_D6_PIN 13U    /*!<@brief PORTB pin index: 13 */
                                          /* @} */
 
 /*!
