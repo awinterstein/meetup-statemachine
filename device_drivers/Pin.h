@@ -12,27 +12,23 @@
 
 namespace DRVR {
 
-constexpr GPIO_Type* cnvAddrToPointer(uint32_t addr)
-{
-	switch (addr)
-	{
-		case GPIOA_BASE: return GPIOA;
-		case GPIOB_BASE: return GPIOB;
-		case GPIOC_BASE: return GPIOC;
-		case GPIOD_BASE: return GPIOD;
-		default: return GPIOE;
-	}
-}
+#define CONCAT_NOEXP(x, y)	x##y
+#define CONCAT_EXP(x, y)	CONCAT_NOEXP(x, y)
 
-template <uintptr_t gpioBase_, uint32_t pin_>
-class Pin {
+struct pinInfo {
+	PORT_Type* port_;
+	GPIO_Type* gpio_;
+	uint32_t   pin_;
+};
+
+#define DECLARE_PIN_AS(Pinname, TypeName)	constexpr DRVR::pinInfo CONCAT_EXP(pin, __LINE__) { Pinname##_PORT, Pinname##_GPIO, Pinname##_PIN}; using TypeName = DRVR::PinObject<CONCAT_EXP(pin, __LINE__)>;
+
+template <const pinInfo& pinInformation>
+class PinObject {
 public:
-	Pin();
-	virtual ~Pin();
-
-	static void set() { GPIO_WritePinOutput(cnvAddrToPointer(gpioBase_), pin_, 1); }
-	static void clr() { GPIO_WritePinOutput(cnvAddrToPointer(gpioBase_), pin_, 0); }
-	static bool read() { return GPIO_PinRead(cnvAddrToPointer(gpioBase_), pin_); }
+	static void set() { GPIO_WritePinOutput(pinInformation.gpio_, pinInformation.pin_, 1); }
+	static void clr() { GPIO_WritePinOutput(pinInformation.gpio_, pinInformation.pin_, 0); }
+	static bool read() { return GPIO_PinRead(pinInformation.gpio_, pinInformation.pin_); }
 };
 
 } /* namespace DRVR */
