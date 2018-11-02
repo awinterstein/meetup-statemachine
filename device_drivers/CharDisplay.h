@@ -32,7 +32,7 @@ namespace {
 	#warning "Replace by something that makes more sense"
 	static void delayMicroSec (uint32_t uSec)
 	{
-		for (uint64_t volatile i = uSec * 1000 ; i ; i--) {}
+		for (uint64_t volatile i = uSec; i ; i--) {}
 	}
 }
 
