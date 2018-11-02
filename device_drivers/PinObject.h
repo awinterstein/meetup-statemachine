@@ -10,7 +10,7 @@
 
 #include <fsl_gpio.h>
 
-namespace DRVR {
+namespace Driver {
 
 #define CONCAT_NOEXP(x, y)	x##y
 #define CONCAT_EXP(x, y)	CONCAT_NOEXP(x, y)
@@ -21,7 +21,7 @@ struct pinInfo {
 	uint32_t   pin_;
 };
 
-#define DECLARE_PIN_AS(Pinname, TypeName)	constexpr DRVR::pinInfo CONCAT_EXP(pin, __LINE__) { Pinname##_PORT, Pinname##_GPIO, Pinname##_PIN}; using TypeName = DRVR::PinObject<CONCAT_EXP(pin, __LINE__)>;
+#define DECLARE_PIN_AS(Pinname, TypeName)	constexpr Driver::pinInfo CONCAT_EXP(pin, __LINE__) { Pinname##_PORT, Pinname##_GPIO, Pinname##_PIN}; using TypeName = Driver::PinObject<CONCAT_EXP(pin, __LINE__)>;
 
 template <const pinInfo& pinInformation>
 class PinObject {
@@ -31,6 +31,6 @@ public:
 	static bool read() { return GPIO_PinRead(pinInformation.gpio_, pinInformation.pin_); }
 };
 
-} /* namespace DRVR */
+} /* namespace Driver */
 
 #endif /* DRIVERS_PIN_H_ */

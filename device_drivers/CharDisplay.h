@@ -26,10 +26,10 @@
 #include <array>
 #include <stdint.h>
 
-namespace DRVR {
+namespace Driver {
 
 namespace {
-#warning "Replace by something that makes more sense"
+	#warning "Replace by something that makes more sense"
 	static void delayMicroSec (uint32_t uSec)
 	{
 		for (uint64_t volatile i = uSec * 1000 ; i ; i--) {}
@@ -45,16 +45,16 @@ public:
 	{
 		enablaData::set();
 	    registerSelect::clr();
-	    DRVR::delayMicroSec(15000u);
+	    delayMicroSec(15000u);
 
 	    for (int32_t i=3; i>0; i--)
 	    {
 	        writeByte(0x3);
-	        DRVR::delayMicroSec(1640u);
+	        delayMicroSec(1640u);
 	    }
 
 	    writeByte(0x2);
-	    DRVR::delayMicroSec(40u);
+	    delayMicroSec(40u);
 
 	    writeCommand(0x28);
 	    writeCommand(0x0C);
@@ -65,7 +65,7 @@ public:
 	static void cls()
 	{
 		writeCommand(0x01);
-		DRVR::delayMicroSec(1640u);
+		Driver::delayMicroSec(1640u);
 	}
 
 	static void writeTopLine(const DisplayLine& line)
@@ -128,6 +128,6 @@ private:
 	}
 };
 
-} /* namespace DRVR */
+} /* namespace Driver */
 
 #endif /* DRIVERS_CHARDISPLAY_H_ */
