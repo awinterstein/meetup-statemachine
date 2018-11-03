@@ -6,9 +6,34 @@
 #ifndef _PERIPHERALS_H_
 #define _PERIPHERALS_H_
 
+/***********************************************************************************************************************
+ * Included files
+ **********************************************************************************************************************/
+#include "fsl_common.h"
+#include "fsl_adc16.h"
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+
+/***********************************************************************************************************************
+ * Definitions
+ **********************************************************************************************************************/
+/* Definitions for BOARD_InitPeripherals functional group */
+/* Alias for ADC0 peripheral */
+#define BUTTON_ADC_PERIPHERAL ADC0
+/* BUTTON_ADC interrupt vector ID (number). */
+#define BUTTON_ADC_IRQN ADC0_IRQn
+/* BUTTON_ADC interrupt handler identifier. */
+#define BUTTON_ADC_IRQHANDLER ADC0_IRQHandler
+
+/***********************************************************************************************************************
+ * Global variables
+ **********************************************************************************************************************/
+extern adc16_channel_config_t BUTTON_ADC_channelsConfig[1];
+extern const adc16_config_t BUTTON_ADC_config;
+extern const adc16_channel_mux_mode_t BUTTON_ADC_muxMode;
+extern const adc16_hardware_average_mode_t BUTTON_ADC_hardwareAverageMode;
 
 /***********************************************************************************************************************
  * Initialization functions

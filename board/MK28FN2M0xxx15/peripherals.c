@@ -31,10 +31,89 @@ component:
 #include "peripherals.h"
 
 /***********************************************************************************************************************
+ * BOARD_InitPeripherals functional group
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
+ * BUTTON_ADC initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'BUTTON_ADC'
+- type: 'adc16'
+- mode: 'ADC'
+- type_id: 'adc16_7d827be2dc433dc756d94a7ce88cbcc5'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'ADC0'
+- config_sets:
+  - fsl_adc16:
+    - adc16_config:
+      - referenceVoltageSource: 'kADC16_ReferenceVoltageSourceVref'
+      - clockSource: 'kADC16_ClockSourceAsynchronousClock'
+      - enableAsynchronousClock: 'true'
+      - clockDivider: 'kADC16_ClockDivider8'
+      - resolution: 'kADC16_ResolutionSE12Bit'
+      - longSampleMode: 'kADC16_LongSampleDisabled'
+      - enableHighSpeed: 'false'
+      - enableLowPower: 'true'
+      - enableContinuousConversion: 'false'
+    - adc16_channel_mux_mode: 'kADC16_ChannelMuxA'
+    - adc16_hardware_compare_config:
+      - hardwareCompareModeEnable: 'false'
+    - doAutoCalibration: 'false'
+    - trigger: 'false'
+    - hardwareAverageConfiguration: 'kADC16_HardwareAverageCount4'
+    - enable_irq: 'false'
+    - adc_interrupt:
+      - IRQn: 'ADC0_IRQn'
+      - enable_priority: 'false'
+      - enable_custom_name: 'false'
+    - adc16_channels_config:
+      - 0:
+        - enableDifferentialConversion: 'false'
+        - channelNumber: 'SE.10'
+        - enableInterruptOnConversionCompleted: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+adc16_channel_config_t BUTTON_ADC_channelsConfig[1] = {
+  {
+    .channelNumber = 10U,
+    .enableDifferentialConversion = false,
+    .enableInterruptOnConversionCompleted = false
+  }
+};
+const adc16_config_t BUTTON_ADC_config = {
+  .referenceVoltageSource = kADC16_ReferenceVoltageSourceVref,
+  .clockSource = kADC16_ClockSourceAsynchronousClock,
+  .enableAsynchronousClock = true,
+  .clockDivider = kADC16_ClockDivider8,
+  .resolution = kADC16_ResolutionSE12Bit,
+  .longSampleMode = kADC16_LongSampleDisabled,
+  .enableHighSpeed = false,
+  .enableLowPower = true,
+  .enableContinuousConversion = false
+};
+const adc16_channel_mux_mode_t BUTTON_ADC_muxMode = kADC16_ChannelMuxA;
+const adc16_hardware_average_mode_t BUTTON_ADC_hardwareAverageMode = kADC16_HardwareAverageCount4;
+
+void BUTTON_ADC_init(void) {
+  /* Initialize ADC16 converter */
+  ADC16_Init(BUTTON_ADC_PERIPHERAL, &BUTTON_ADC_config);
+  /* Make sure, that software trigger is used */
+  ADC16_EnableHardwareTrigger(BUTTON_ADC_PERIPHERAL, false);
+  /* Configure hardware average mode */
+  ADC16_SetHardwareAverage(BUTTON_ADC_PERIPHERAL, BUTTON_ADC_hardwareAverageMode);
+  /* Configure channel multiplexing mode */
+  ADC16_SetChannelMuxMode(BUTTON_ADC_PERIPHERAL, BUTTON_ADC_muxMode);
+}
+
+/***********************************************************************************************************************
  * Initialization functions
  **********************************************************************************************************************/
 void BOARD_InitPeripherals(void)
 {
+  /* Initialize components */
+  BUTTON_ADC_init();
 }
 
 /***********************************************************************************************************************
