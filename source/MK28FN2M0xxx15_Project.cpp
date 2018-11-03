@@ -43,18 +43,17 @@
 #include <pin_mux.h>
 
 #include <CharDisplay.h>
+#include <GPIOPin.h>
 #include <ParallelBus.h>
-#include <Pin.h>
 
 /* TODO: insert other definitions and declarations here. */
-#warning "resolve this address ptr issue"
-using LCD_D7 = DRVR::Pin<GPIOC_BASE, BOARD_INITPINS_LCD_D7_PIN>;
-using LCD_D6 = DRVR::Pin<GPIOC_BASE, BOARD_INITPINS_LCD_D6_PIN>;
-using LCD_D5 = DRVR::Pin<GPIOC_BASE, BOARD_INITPINS_LCD_D5_PIN>;
-using LCD_D4 = DRVR::Pin<GPIOC_BASE, BOARD_INITPINS_LCD_D4_PIN>;
+DECLARE_PIN_AS(BOARD_INITPINS_LCD_D7, LCD_D7);
+DECLARE_PIN_AS(BOARD_INITPINS_LCD_D6, LCD_D6);
+DECLARE_PIN_AS(BOARD_INITPINS_LCD_D5, LCD_D5);
+DECLARE_PIN_AS(BOARD_INITPINS_LCD_D4, LCD_D4);
 
-using LCD_DATABUS = DRVR::ParallelBus<LCD_D7, LCD_D6, LCD_D5, LCD_D4>;
-using MYLCD = DRVR::CharDisplay<LCD_D4, LCD_D4, LCD_DATABUS>;
+using LCD_DATABUS = Driver::ParallelBus<LCD_D7, LCD_D6, LCD_D5, LCD_D4>;
+using MYLCD = Driver::CharDisplay<LCD_D4, LCD_D4, LCD_DATABUS>;
 
 /*
  * @brief   Application entry point.
@@ -69,10 +68,18 @@ int main(void) {
 
     PRINTF("Hello World\n");
 
-    MYLCD::DisplayLine test1 {"0123456789ABCDE"};
-    MYLCD::init();
-    MYLCD::writeTopLine(test1);
-    MYLCD::writeBottomLine(test1);
+    volatile static bool lcdtestTrigger = false;
+    if (lcdtestTrigger)
+    {
+    	MYLCD::DisplayLine test1 {"0123456789ABCDE"};
+    	MYLCD::init();
+    	MYLCD::writeTopLine(test1);
+    	MYLCD::writeBottomLine(test1);
+
+    	LCD_D7::clr();
+    	LCD_D7::set();
+    	LCD_D7::clr();
+    }
 
     /* Force the counter to be placed into memory. */
     volatile static int i = 0 ;

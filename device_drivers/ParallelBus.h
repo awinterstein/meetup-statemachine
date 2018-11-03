@@ -8,9 +8,9 @@
 #ifndef DRIVERS_PARALLELBUS_H_
 #define DRIVERS_PARALLELBUS_H_
 
-#include "Pin.h"
+#include "GPIOPin.h"
 
-namespace DRVR {
+namespace Driver {
 
 template <typename D1, typename D2, typename D3, typename D4>
 class ParallelBus {
@@ -35,6 +35,6 @@ public:
 	}
 };
 
-} /* namespace DRVR */
+} /* namespace Driver */
 
 #endif /* DRIVERS_PARALLELBUS_H_ */
