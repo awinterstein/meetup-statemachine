@@ -9,11 +9,9 @@
 #define DRIVERS_GPIOPIN_H_
 
 #include <fsl_gpio.h>
+#include <macro_utilities.h>
 
 namespace Driver {
-
-#define CONCAT_NOEXP(x, y)	x##y
-#define CONCAT_EXP(x, y)	CONCAT_NOEXP(x, y)
 
 struct pinInfo {
 	PORT_Type* port_;
