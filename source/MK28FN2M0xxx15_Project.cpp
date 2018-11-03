@@ -45,6 +45,7 @@
 #include <CharDisplay.h>
 #include <GPIOPin.h>
 #include <ParallelBus.h>
+#include <ADCChannelSingle.h>
 
 /* TODO: insert other definitions and declarations here. */
 DECLARE_PIN_AS(BOARD_INITPINS_LCD_D7, LCD_D7);
@@ -56,6 +57,8 @@ DECLARE_PIN_AS(BOARD_INITPINS_LCD_RS, LCD_RS);
 
 using LCD_DATABUS = Driver::ParallelBus<LCD_D4, LCD_D5, LCD_D6, LCD_D7>;
 using DISPLAY = Driver::CharDisplay<LCD_RS, LCD_EN, LCD_DATABUS>;
+
+DECLARE_ADC_CHANNEL_AS(BUTTON_ADC, 0, BUTTON_ADC);
 
 /*
  * @brief   Application entry point.
