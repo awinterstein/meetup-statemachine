@@ -67,11 +67,11 @@ void BOARD_InitBootPins(void);
 #define BOARD_INITPINS_LCD_D6_PIN 13U    /*!<@brief PORTB pin index: 13 */
                                          /* @} */
 
-/*! @name PORTA7 (coord L10), BUTTONS_ADC
+/*! @name PORTA7 (coord L10), BUTTONS_ALL_ADC
   @{ */
-#define BOARD_INITPINS_BUTTONS_ADC_PORT PORTA /*!<@brief PORT device name: PORTA */
-#define BOARD_INITPINS_BUTTONS_ADC_PIN 7U     /*!<@brief PORTA pin index: 7 */
-                                              /* @} */
+#define BOARD_INITPINS_BUTTONS_ALL_ADC_PORT PORTA /*!<@brief PORT device name: PORTA */
+#define BOARD_INITPINS_BUTTONS_ALL_ADC_PIN 7U     /*!<@brief PORTA pin index: 7 */
+                                                  /* @} */
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.

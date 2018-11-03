@@ -25,7 +25,7 @@
                <pin_label pin_num="D11" pin_signal="PTB19/SDRAM_CKE/FTM2_CH1/I2S0_TX_FS/FB_OE_b/FTM2_QD_PHB/TPM2_CH1/FXIO0_D7" label="LCD_EN" identifier="LCD_EN"/>
                <pin_label pin_num="E12" pin_signal="PTB12/LPUART0_RTS_b/FTM1_CH0/FTM0_CH4/FB_A9/SDRAM_D9/FTM1_QD_PHA/TPM1_CH0" label="LCD_D5" identifier="LCD_D5"/>
                <pin_label pin_num="E11" pin_signal="PTB13/LPUART0_CTS_b/FTM1_CH1/FTM0_CH5/FB_A8/SDRAM_D8/FTM1_QD_PHB/TPM1_CH1" label="LCD_D6" identifier="LCD_D6"/>
-               <pin_label pin_num="L10" pin_signal="ADC0_SE10/PTA7/I2C2_SDA/FTM0_CH4/TRACE_D3" label="BUTTONS_ADC" identifier="BUTTONS_ADC"/>
+               <pin_label pin_num="L10" pin_signal="ADC0_SE10/PTA7/I2C2_SDA/FTM0_CH4/TRACE_D3" label="BUTTONS_ALL_ADC" identifier="BUTTONS_ALL_ADC"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
