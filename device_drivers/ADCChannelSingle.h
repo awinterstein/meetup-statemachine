@@ -19,7 +19,7 @@ struct channelInfo {
 	uint32_t chanGroup_;
 };
 
-#define DECLARE_ADC_CHANNEL_AS(ADCName, ADCChannelIndex, TypeName)	constexpr Driver::channelInfo CONCAT_EXP(adcChannel, __LINE__) { ADCName##_PERIPHERAL, ADCName##_channelsConfig[ADCChannelIndex], 0u }; using TypeName = Driver::channelInfo<CONCAT_EXP(adcChannel, __LINE__)>;
+#define DECLARE_ADC_CHANNEL_AS(ADCName, ADCChannelIndex, TypeName) constexpr Driver::channelInfo CONCAT_EXP(adcChannel, __LINE__) { ADCName##_PERIPHERAL, &ADCName##_channelsConfig[ADCChannelIndex], 0u }; using TypeName = Driver::ADCChannelSingle<CONCAT_EXP(adcChannel, __LINE__)>;
 
 template <const channelInfo&  chanInfo>
 class ADCChannelSingle
