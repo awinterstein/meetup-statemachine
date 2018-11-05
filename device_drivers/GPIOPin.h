@@ -19,7 +19,7 @@ struct pinInfo {
 	uint32_t   pin_;
 };
 
-#define DECLARE_PIN_AS(Pinname, TypeName)	constexpr Driver::pinInfo CONCAT_EXP(pin, __LINE__) { Pinname##_PORT, Pinname##_GPIO, Pinname##_PIN}; using TypeName = Driver::GPIOPin<CONCAT_EXP(pin, __LINE__)>;
+#define DECLARE_PIN_AS(Pinname, TypeName)	constexpr Driver::pinInfo CONCAT_EXP(Pinname, TypeName) { Pinname##_PORT, Pinname##_GPIO, Pinname##_PIN}; using TypeName = Driver::GPIOPin<CONCAT_EXP(Pinname, TypeName)>;
 
 template <const pinInfo& pinInformation>
 class GPIOPin {
