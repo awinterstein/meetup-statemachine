@@ -12,14 +12,6 @@
 
 namespace Driver {
 
-namespace {
-	#warning "Replace by something that makes more sense"
-	static void delayMicroSec (uint32_t uSec)
-	{
-		for (uint64_t volatile i = uSec; i ; i--) {}
-	}
-}
-
 template <typename sourcePin, typename sinkPin>
 class Wire {
 public:
@@ -27,7 +19,7 @@ public:
 	{
 		invertPins();
 		delayMicroSec(10);
-		return sourcePin != sinkPin;
+		return sourcePin::read() != sinkPin::read();
 	}
 
 private:
