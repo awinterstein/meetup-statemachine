@@ -23,8 +23,10 @@
 #ifndef DRIVERS_CHARDISPLAY_H_
 #define DRIVERS_CHARDISPLAY_H_
 
-#include <array>
 #include <stdint.h>
+#include <array>
+#include <cstdio>
+#include <cstdarg>
 
 namespace Driver {
 
@@ -32,14 +34,14 @@ namespace {
 	#warning "Replace by something that makes more sense"
 	static void delayMicroSec (uint32_t uSec)
 	{
-		for (uint64_t volatile i = uSec * 1000 ; i ; i--) {}
+		for (uint64_t volatile i = uSec; i ; i--) {}
 	}
 }
 
 template <typename registerSelect, typename enablaData, typename dataBus>
 class CharDisplay {
 public:
-	using DisplayLine = std::array<const char, 16>;
+	using DisplayLine = std::array<char, 16>;
 
 	static void init()
 	{
@@ -68,14 +70,22 @@ public:
 		Driver::delayMicroSec(1640u);
 	}
 
-	static void writeTopLine(const DisplayLine& line)
+	template<typename... Targs>
+	static void writeTopLine(const char* fmt, Targs... args)
 	{
-		writeLine(line, 0u);
+		DisplayLine buffer;
+		buffer.fill(0x00);
+		snprintf(buffer.data(), buffer.size(), fmt, args...);
+		writeLine(0, buffer);
 	}
 
-	static void writeBottomLine(const DisplayLine& line)
+	template<typename... Targs>
+	static void writeBottomLine(const char* fmt, Targs... args)
 	{
-		writeLine(line, 1u);
+		DisplayLine buffer;
+		buffer.fill(0x00);
+		snprintf(buffer.data(), buffer.size(), fmt, args...);
+		writeLine(1, buffer);
 	}
 
 private:
@@ -118,12 +128,19 @@ private:
 		writeByte(data);
 	}
 
-	static void writeLine (const DisplayLine& line, uint32_t row)
+	static void writeLine (uint32_t row, DisplayLine& buffer)
 	{
-		for (auto& c : line)
+	    for (auto& c : buffer)
 		{
-			const auto column = &c - line.data();
-			character(column, row, c);
+			const auto column = &c - buffer.data();
+			if (isprint(c))
+			{
+				character(column, row, c);
+			}
+			else
+			{
+				character(column, row, ' ');
+			}
 		}
 	}
 };
