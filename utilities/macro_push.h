@@ -1,6 +1,13 @@
 #ifndef _MACRO_PUSH_H_
 #define _MACRO_PUSH_H_
 
+#ifdef ADC0
+	#pragma push_macro("ADC0")
+	#undef ADC0
+	#define ADC0 ADC0_BASE
+	#define RESTORE_ADC0
+#endif
+
 #ifdef GPIOA
 	#pragma push_macro("GPIOA")
 	#undef GPIOA

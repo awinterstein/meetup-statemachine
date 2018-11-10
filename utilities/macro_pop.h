@@ -1,6 +1,10 @@
 #ifndef _MACRO_POP_H_
 #define _MACRO_POP_H_
 
+#ifdef RESTORE_ADC0
+	#pragma pop_macro("ADC0")
+#endif
+
 #ifdef RESTORE_GPIOA
 	#pragma pop_macro("GPIOA")
 #endif
