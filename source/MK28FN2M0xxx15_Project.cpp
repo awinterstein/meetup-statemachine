@@ -33,14 +33,13 @@
  * @brief   Application entry point.
  */
 #include <board.h>
-#include <clock_config.h>
-#include <stdio.h>
-#include "MK28F15.h"
-#include "fsl_debug_console.h"
-/* TODO: insert other include files here. */
-
 #include <peripherals.h>
 #include <pin_mux.h>
+#include <clock_config.h>
+
+#include "MK28F15.h"
+
+/* TODO: insert other include files here. */
 
 #include <CharDisplay.h>
 #include <GPIOPin.h>
@@ -74,18 +73,11 @@ int main(void) {
   	/* Init FSL debug console. */
 	BOARD_InitDebugConsole();
 
-    PRINTF("Hello World\n");
-
     DISPLAY::init();
     DISPLAY::writeTopLine("Button adc %d", int32_t(BUTTON_ADC::getVoltage() * 1000));
     DISPLAY::writeBottomLine("Button up: %c", BUTTON_UP::isPressed() ? 't' : 'f');
 
-    /* Force the counter to be placed into memory. */
-    volatile static int i = 0 ;
-
     /* Enter an infinite loop, just incrementing a counter. */
-    while(1) {
-        i++ ;
-    }
+    while(true) {}
     return 0 ;
 }
