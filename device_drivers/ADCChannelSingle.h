@@ -14,23 +14,20 @@
 
 namespace Driver {
 
-struct channelInfo {
-	ADC_Type* adc_;
-	adc16_channel_config_t* chan_;
-	uint32_t chanGroup_;
-};
-
-#define DECLARE_ADC_CHANNEL_AS(ADCName, ADCChannelIndex, TypeName) constexpr Driver::channelInfo CONCAT_EXP(ADCName, TypeName) { ADCName##_PERIPHERAL, &ADCName##_channelsConfig[ADCChannelIndex], 0u }; using TypeName = Driver::ADCChannelSingle<CONCAT_EXP(ADCName, TypeName), 3300, 12>;
-
-template <const channelInfo&  chanInfo, int32_t referenceVoltage, int32_t bits>
+template <uint32_t adcBaseAddr, adc16_channel_config_t* channelSetting, int32_t referenceVoltage, int32_t bits>
 class ADCChannelSingle
 {
 public:
 	static int32_t getADCCount ()
 	{
-        ADC16_SetChannelConfig(chanInfo.adc_, chanInfo.chanGroup_, chanInfo.chan_);
-        while ( ! (kADC16_ChannelConversionDoneFlag & ADC16_GetChannelStatusFlags(chanInfo.adc_, chanInfo.chanGroup_))) { }
-        return ADC16_GetChannelConversionValue(chanInfo.adc_, chanInfo.chanGroup_);
+		const auto adcBasePtr = reinterpret_cast<ADC_Type*>(adcBaseAddr);
+		const auto channelGrp = 0lu;
+
+        ADC16_SetChannelConfig(adcBasePtr, channelGrp, channelSetting);
+
+        while ( ! (kADC16_ChannelConversionDoneFlag & ADC16_GetChannelStatusFlags(adcBasePtr, channelGrp))) { }
+
+        return ADC16_GetChannelConversionValue(adcBasePtr, channelGrp);
 	}
 
 	static float getVoltage ()
