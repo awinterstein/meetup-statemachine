@@ -10,6 +10,7 @@
 
 #include <fsl_adc16.h>
 #include <macro_utilities.h>
+#include <math.h>
 
 namespace Driver {
 
@@ -19,16 +20,25 @@ struct channelInfo {
 	uint32_t chanGroup_;
 };
 
-#define DECLARE_ADC_CHANNEL_AS(ADCName, ADCChannelIndex, TypeName) constexpr Driver::channelInfo CONCAT_EXP(ADCName, TypeName) { ADCName##_PERIPHERAL, &ADCName##_channelsConfig[ADCChannelIndex], 0u }; using TypeName = Driver::ADCChannelSingle<CONCAT_EXP(ADCName, TypeName)>;
+#define DECLARE_ADC_CHANNEL_AS(ADCName, ADCChannelIndex, TypeName) constexpr Driver::channelInfo CONCAT_EXP(ADCName, TypeName) { ADCName##_PERIPHERAL, &ADCName##_channelsConfig[ADCChannelIndex], 0u }; using TypeName = Driver::ADCChannelSingle<CONCAT_EXP(ADCName, TypeName), 3300, 12>;
 
-template <const channelInfo&  chanInfo>
+template <const channelInfo&  chanInfo, int32_t referenceVoltage, int32_t bits>
 class ADCChannelSingle
 {
-	static uint32_t getRawValue ()
+public:
+	static int32_t getADCCount ()
 	{
         ADC16_SetChannelConfig(chanInfo.adc_, chanInfo.chanGroup_, chanInfo.chan_);
         while (0U == (kADC16_ChannelConversionDoneFlag & ADC16_GetChannelStatusFlags(chanInfo.adc_, chanInfo.chanGroup_))) { }
         return ADC16_GetChannelConversionValue(chanInfo.adc_, chanInfo.chanGroup_);
+	}
+
+	static float getVoltage ()
+	{
+		const auto rawADC = getADCCount();
+		const auto maxCount = pow(int32_t(2), bits) -1;
+		const float refVoltage  = float(referenceVoltage) / 1000;
+		return refVoltage * maxCount / rawADC;
 	}
 };
 

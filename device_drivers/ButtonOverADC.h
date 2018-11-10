@@ -8,7 +8,27 @@
 #ifndef DRIVERS_ADCCHANNELSINGLE_H_
 #define DRIVERS_ADCCHANNELSINGLE_H_
 
+#include <ADCChannelSingle.h>
+
 namespace Driver {
+
+template <typename adc, int32_t targetVoltage, int32_t voltageTollerance>
+class ButtonOverADC {
+public:
+	ButtonOverADC();
+	virtual ~ButtonOverADC();
+
+	static bool isPressed ()
+	{
+		const auto inputVoltage = adc::getVoltage();
+		return lowerBound_ <= inputVoltage && inputVoltage <= upperBound_;
+	}
+
+private:
+	static constexpr auto lowerBound_ = targetVoltage - voltageTollerance;
+	static constexpr auto upperBound_ = targetVoltage + voltageTollerance;
+};
+
 
 } /* namespace Driver */
 

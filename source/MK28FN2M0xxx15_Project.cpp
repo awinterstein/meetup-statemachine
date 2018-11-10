@@ -46,6 +46,7 @@
 #include <GPIOPin.h>
 #include <ParallelBus.h>
 #include <ADCChannelSingle.h>
+#include <ButtonOverADC.h>
 
 /* TODO: insert other definitions and declarations here. */
 DECLARE_PIN_AS(BOARD_INITPINS_LCD_D7, LCD_D7);
@@ -59,6 +60,8 @@ using LCD_DATABUS = Driver::ParallelBus<LCD_D4, LCD_D5, LCD_D6, LCD_D7>;
 using DISPLAY = Driver::CharDisplay<LCD_RS, LCD_EN, LCD_DATABUS>;
 
 DECLARE_ADC_CHANNEL_AS(BUTTON_ADC, 0, BUTTON_ADC);
+
+using BUTTON_UP = Driver::ButtonOverADC<BUTTON_ADC, 1000lu, 100lu>;
 
 /*
  * @brief   Application entry point.
@@ -77,8 +80,8 @@ int main(void) {
     if (lcdtestTrigger)
     {
     	DISPLAY::init();
-    	DISPLAY::writeTopLine("here we go %s", "aaa");
-    	DISPLAY::writeBottomLine("here %u", 123ul);
+    	DISPLAY::writeTopLine("Button adc %.3f", BUTTON_ADC::getVoltage());
+    	DISPLAY::writeBottomLine("Button up: %c", BUTTON_UP::isPressed() ? 'h' : 'l');
     }
 
     /* Force the counter to be placed into memory. */
