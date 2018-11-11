@@ -32,6 +32,14 @@ using DISPLAY		= Driver::CharDisplay<LCD_RS, LCD_EN, LCD_DATABUS>;
 using COMMON_ADC	= Driver::ADCChannelSingle<BUTTON_ADC_PERIPHERAL, BUTTON_ADC_channelsConfig, 3300, 12>;
 using BUTTON_UP		= Driver::ButtonOverADC<COMMON_ADC, 1000lu, 100lu>;
 
+using RED_OUT		= Driver::GPIOPin<BOARD_INITPINS_RED_OUT_GPIO,	BOARD_INITPINS_RED_OUT_PIN>;
+using RED_IN		= Driver::GPIOPin<BOARD_INITPINS_RED_IN_GPIO,	BOARD_INITPINS_RED_IN_PIN>;
+using BLUE_OUT		= Driver::GPIOPin<BOARD_INITPINS_BLUE_OUT_GPIO,	BOARD_INITPINS_BLUE_OUT_PIN>;
+using BLUE_IN		= Driver::GPIOPin<BOARD_INITPINS_BLUE_IN_GPIO,	BOARD_INITPINS_BLUE_IN_PIN>;
+
+using WIRE_RED		= Driver::Wire<RED_OUT, RED_IN>;
+using WIRE_BLUE		= Driver::Wire<BLUE_OUT, BLUE_IN>;
+
 #include <macro_pop.h>
 
 #endif /* HAL_HPP_ */
