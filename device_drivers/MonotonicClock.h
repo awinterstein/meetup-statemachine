@@ -13,6 +13,8 @@
 
 namespace Driver {
 
+using namespace std::chrono_literals;
+
 template <uint32_t pitBase, clock_name_t clockSource>
 class MonotonicClock {
 public:
@@ -23,6 +25,12 @@ public:
 		const auto lifetimeCount = std::numeric_limits<uint64_t>::max() - PIT_GetLifetimeTimerCount(instance);
 
 		return std::chrono::milliseconds{COUNT_TO_MSEC(lifetimeCount, clockFrequency)};
+	}
+
+	static void delay (std::chrono::milliseconds msToBusyWait)
+	{
+		const auto start = milliseconds();
+		while (milliseconds() - start < msToBusyWait) {};
 	}
 };
 
