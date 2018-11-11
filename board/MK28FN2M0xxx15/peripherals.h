@@ -11,6 +11,7 @@
  **********************************************************************************************************************/
 #include "fsl_common.h"
 #include "fsl_adc16.h"
+#include "fsl_pit.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -26,6 +27,17 @@ extern "C" {
 #define BUTTON_ADC_IRQN ADC0_IRQn
 /* BUTTON_ADC interrupt handler identifier. */
 #define BUTTON_ADC_IRQHANDLER ADC0_IRQHandler
+/* BOARD_InitPeripherals defines for PIT0 */
+/* Definition of peripheral ID. */
+#define TIMEBASE_PERIPHERAL PIT0
+/* Definition of clock source. */
+#define TIMEBASE_CLOCK_SOURCE kCLOCK_BusClk
+/* Definition of clock source frequency. */
+#define TIMEBASE_CLK_FREQ CLOCK_GetFreq(TIMEBASE_CLOCK_SOURCE)
+/* Definition of ticks count for channel 0. */
+#define TIMEBASE_0_TICKS USEC_TO_COUNT(1000000U, TIMEBASE_CLK_FREQ) - 1U
+/* Definition of ticks count for cahnnel 1. */
+#define TIMEBASE_1_TICKS 86399U
 
 /***********************************************************************************************************************
  * Global variables
@@ -34,6 +46,7 @@ extern adc16_channel_config_t BUTTON_ADC_channelsConfig[1];
 extern const adc16_config_t BUTTON_ADC_config;
 extern const adc16_channel_mux_mode_t BUTTON_ADC_muxMode;
 extern const adc16_hardware_average_mode_t BUTTON_ADC_hardwareAverageMode;
+extern const pit_config_t TIMEBASE_config;
 
 /***********************************************************************************************************************
  * Initialization functions

@@ -108,12 +108,73 @@ void BUTTON_ADC_init(void) {
 }
 
 /***********************************************************************************************************************
+ * TIMEBASE initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'TIMEBASE'
+- type: 'pit'
+- mode: 'LPTMR_GENERAL'
+- type_id: 'pit_a4782ba5223c8a2527ba91aeb2bc4159'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'PIT0'
+- config_sets:
+  - fsl_pit:
+    - enableRunInDebug: 'false'
+    - timingConfig:
+      - clockSource: 'BusInterfaceClock'
+      - clockSourceFreq: 'GetFreq'
+    - channels:
+      - 0:
+        - channelNumber: '0'
+        - enableChain: 'false'
+        - timerPeriod: '1s'
+        - startTimer: 'true'
+        - enableInterrupt: 'false'
+        - interrupt:
+          - IRQn: 'PIT0_IRQn'
+          - enable_priority: 'false'
+          - enable_custom_name: 'false'
+      - 1:
+        - channelNumber: '1'
+        - enableChain: 'true'
+        - timerMultiplier: '86400'
+        - startTimer: 'true'
+        - enableInterrupt: 'false'
+        - interrupt:
+          - IRQn: 'PIT0CH0_IRQn'
+          - enable_priority: 'false'
+          - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const pit_config_t TIMEBASE_config = {
+  .enableRunInDebug = false
+};
+
+void TIMEBASE_init(void) {
+  /* Initialize the PIT. */
+  PIT_Init(TIMEBASE_PERIPHERAL, &TIMEBASE_config);
+  /* Set channel 0 period to 1 s. */
+  PIT_SetTimerPeriod(TIMEBASE_PERIPHERAL, kPIT_Chnl_0, TIMEBASE_0_TICKS);
+  /* Set channel 1 period to 1 d. */
+  PIT_SetTimerPeriod(TIMEBASE_PERIPHERAL, kPIT_Chnl_1, TIMEBASE_1_TICKS);
+  /* Chain the channel 1 to channel 0. */
+  PIT_SetTimerChainMode(TIMEBASE_PERIPHERAL, kPIT_Chnl_1, true);
+  /* Start channel 0. */
+  PIT_StartTimer(TIMEBASE_PERIPHERAL, kPIT_Chnl_0);
+  /* Start channel 1. */
+  PIT_StartTimer(TIMEBASE_PERIPHERAL, kPIT_Chnl_1);
+}
+
+/***********************************************************************************************************************
  * Initialization functions
  **********************************************************************************************************************/
 void BOARD_InitPeripherals(void)
 {
   /* Initialize components */
   BUTTON_ADC_init();
+  TIMEBASE_init();
 }
 
 /***********************************************************************************************************************
