@@ -1,12 +1,12 @@
 /*
- * TimeBase.h
+ * MonotonicClock.h
  *
  *  Created on: 10 Nov 2018
  *      Author: vagrant
  */
 
-#ifndef DRIVERS_TIMEBASE_H_
-#define DRIVERS_TIMEBASE_H_
+#ifndef DRIVERS_MONOTONICCLOCK_H_
+#define DRIVERS_MONOTONICCLOCK_H_
 
 #include <chrono>
 #include <fsl_pit.h>
@@ -14,7 +14,7 @@
 namespace Driver {
 
 template <uint32_t pitBase, clock_name_t clockSource>
-class TimeBase {
+class MonotonicClock {
 public:
 	static std::chrono::milliseconds milliseconds() const
 	{
@@ -28,4 +28,4 @@ public:
 
 } /* namespace Driver */
 
-#endif /* DRIVERS_TIMEBASE_H_ */
+#endif /* DRIVERS_MONOTONICCLOCK_H_ */
