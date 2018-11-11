@@ -15,6 +15,7 @@
 
 #include "MK28F15.h"
 
+#include <MonotonicClock.h>
 #include <CharDisplay.h>
 #include <GPIOPin.h>
 #include <ParallelBus.h>
@@ -25,6 +26,8 @@
 #include <macro_push.h>
 
 namespace HAL {
+
+using MonoClock		= Driver::MonotonicClock<TIMEBASE_PERIPHERAL, TIMEBASE_CLOCK_SOURCE>;
 
 using LCD_D7		= Driver::GPIOPin<BOARD_INITPINS_LCD_D7_GPIO, BOARD_INITPINS_LCD_D7_PIN>;
 using LCD_D6		= Driver::GPIOPin<BOARD_INITPINS_LCD_D6_GPIO, BOARD_INITPINS_LCD_D6_PIN>;

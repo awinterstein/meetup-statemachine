@@ -43,4 +43,11 @@
 	#define RESTORE_GPIOE
 #endif
 
+#ifdef PIT0
+	#pragma push_macro("PIT0")
+	#undef PIT0
+	#define PIT0 PIT0_BASE
+	#define RESTORE_PIT0
+#endif
+
 #endif // _MACRO_PUSH_H_

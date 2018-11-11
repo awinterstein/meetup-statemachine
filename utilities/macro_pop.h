@@ -25,4 +25,8 @@
 	#pragma pop_macro("GPIOE")
 #endif
 
+#ifdef RESTORE_PIT0
+	#pragma pop_macro("PIT0")
+#endif
+
 #endif // _MACRO_POP_H_

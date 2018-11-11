@@ -16,7 +16,7 @@ namespace Driver {
 template <uint32_t pitBase, clock_name_t clockSource>
 class MonotonicClock {
 public:
-	static std::chrono::milliseconds milliseconds() const
+	static std::chrono::milliseconds milliseconds()
 	{
 		const auto clockFrequency = CLOCK_GetFreq(clockSource);
 		const auto instance = reinterpret_cast<PIT_Type*>(pitBase);
