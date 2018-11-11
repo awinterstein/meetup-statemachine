@@ -20,6 +20,10 @@ pin_labels:
 - {pin_num: E12, pin_signal: PTB12/LPUART0_RTS_b/FTM1_CH0/FTM0_CH4/FB_A9/SDRAM_D9/FTM1_QD_PHA/TPM1_CH0, label: LCD_D5, identifier: LCD_D5}
 - {pin_num: E11, pin_signal: PTB13/LPUART0_CTS_b/FTM1_CH1/FTM0_CH5/FB_A8/SDRAM_D8/FTM1_QD_PHB/TPM1_CH1, label: LCD_D6, identifier: LCD_D6}
 - {pin_num: L10, pin_signal: ADC0_SE10/PTA7/I2C2_SDA/FTM0_CH4/TRACE_D3, label: BUTTONS_ALL_ADC, identifier: BUTTONS_ALL_ADC}
+- {pin_num: K9, pin_signal: ADC0_SE11/PTA8/I2C1_SCL/FTM1_CH0/FTM1_QD_PHA/TPM1_CH0/TRACE_D2, label: BLUE_OUT, identifier: BLUE_OUT}
+- {pin_num: A5, pin_signal: ADC0_SE5b/PTD1/SPI0_SCK/LPUART2_CTS_b/FTM3_CH1/FB_CS0_b/FXIO0_D23, label: BLUE_IN, identifier: BLUE_IN}
+- {pin_num: G11, pin_signal: ADC0_SE12/PTB2/I2C0_SCL/LPUART0_RTS_b/SDRAM_WE_b/FTM0_FLT3/FXIO0_D2, label: RED_OUT, identifier: RED_OUT}
+- {pin_num: G10, pin_signal: ADC0_SE13/PTB3/I2C0_SDA/LPUART0_CTS_b/SDRAM_CS0_b/FTM0_FLT0/FXIO0_D3, label: RED_IN, identifier: RED_IN}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -54,6 +58,10 @@ BOARD_InitPins:
   - {pin_num: E12, peripheral: GPIOB, signal: 'GPIO, 12', pin_signal: PTB12/LPUART0_RTS_b/FTM1_CH0/FTM0_CH4/FB_A9/SDRAM_D9/FTM1_QD_PHA/TPM1_CH0, direction: OUTPUT}
   - {pin_num: E11, peripheral: GPIOB, signal: 'GPIO, 13', pin_signal: PTB13/LPUART0_CTS_b/FTM1_CH1/FTM0_CH5/FB_A8/SDRAM_D8/FTM1_QD_PHB/TPM1_CH1, direction: OUTPUT}
   - {pin_num: L10, peripheral: ADC0, signal: 'SE, 10', pin_signal: ADC0_SE10/PTA7/I2C2_SDA/FTM0_CH4/TRACE_D3}
+  - {pin_num: K9, peripheral: GPIOA, signal: 'GPIO, 8', pin_signal: ADC0_SE11/PTA8/I2C1_SCL/FTM1_CH0/FTM1_QD_PHA/TPM1_CH0/TRACE_D2, direction: OUTPUT}
+  - {pin_num: A5, peripheral: GPIOD, signal: 'GPIO, 1', pin_signal: ADC0_SE5b/PTD1/SPI0_SCK/LPUART2_CTS_b/FTM3_CH1/FB_CS0_b/FXIO0_D23, direction: INPUT}
+  - {pin_num: G11, peripheral: GPIOB, signal: 'GPIO, 2', pin_signal: ADC0_SE12/PTB2/I2C0_SCL/LPUART0_RTS_b/SDRAM_WE_b/FTM0_FLT3/FXIO0_D2, direction: OUTPUT}
+  - {pin_num: G10, peripheral: GPIOB, signal: 'GPIO, 3', pin_signal: ADC0_SE13/PTB3/I2C0_SDA/LPUART0_CTS_b/SDRAM_CS0_b/FTM0_FLT0/FXIO0_D3, direction: INPUT}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -72,6 +80,29 @@ void BOARD_InitPins(void)
     CLOCK_EnableClock(kCLOCK_PortB);
     /* Port C Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortC);
+    /* Port D Clock Gate Control: Clock enabled */
+    CLOCK_EnableClock(kCLOCK_PortD);
+
+    gpio_pin_config_t BLUE_OUT_config = {
+        .pinDirection = kGPIO_DigitalOutput,
+        .outputLogic = 0U
+    };
+    /* Initialize GPIO functionality on pin PTA8 (pin K9)  */
+    GPIO_PinInit(BOARD_INITPINS_BLUE_OUT_GPIO, BOARD_INITPINS_BLUE_OUT_PIN, &BLUE_OUT_config);
+
+    gpio_pin_config_t RED_OUT_config = {
+        .pinDirection = kGPIO_DigitalOutput,
+        .outputLogic = 0U
+    };
+    /* Initialize GPIO functionality on pin PTB2 (pin G11)  */
+    GPIO_PinInit(BOARD_INITPINS_RED_OUT_GPIO, BOARD_INITPINS_RED_OUT_PIN, &RED_OUT_config);
+
+    gpio_pin_config_t RED_IN_config = {
+        .pinDirection = kGPIO_DigitalInput,
+        .outputLogic = 0U
+    };
+    /* Initialize GPIO functionality on pin PTB3 (pin G10)  */
+    GPIO_PinInit(BOARD_INITPINS_RED_IN_GPIO, BOARD_INITPINS_RED_IN_PIN, &RED_IN_config);
 
     gpio_pin_config_t LCD_D5_config = {
         .pinDirection = kGPIO_DigitalOutput,
@@ -115,8 +146,18 @@ void BOARD_InitPins(void)
     /* Initialize GPIO functionality on pin PTC19 (pin C7)  */
     GPIO_PinInit(BOARD_INITPINS_LCD_RS_GPIO, BOARD_INITPINS_LCD_RS_PIN, &LCD_RS_config);
 
+    gpio_pin_config_t BLUE_IN_config = {
+        .pinDirection = kGPIO_DigitalInput,
+        .outputLogic = 0U
+    };
+    /* Initialize GPIO functionality on pin PTD1 (pin A5)  */
+    GPIO_PinInit(BOARD_INITPINS_BLUE_IN_GPIO, BOARD_INITPINS_BLUE_IN_PIN, &BLUE_IN_config);
+
     /* PORTA7 (pin L10) is configured as ADC0_SE10 */
     PORT_SetPinMux(BOARD_INITPINS_BUTTONS_ALL_ADC_PORT, BOARD_INITPINS_BUTTONS_ALL_ADC_PIN, kPORT_PinDisabledOrAnalog);
+
+    /* PORTA8 (pin K9) is configured as PTA8 */
+    PORT_SetPinMux(BOARD_INITPINS_BLUE_OUT_PORT, BOARD_INITPINS_BLUE_OUT_PIN, kPORT_MuxAsGpio);
 
     /* PORTB12 (pin E12) is configured as PTB12 */
     PORT_SetPinMux(BOARD_INITPINS_LCD_D5_PORT, BOARD_INITPINS_LCD_D5_PIN, kPORT_MuxAsGpio);
@@ -127,6 +168,12 @@ void BOARD_InitPins(void)
     /* PORTB19 (pin D11) is configured as PTB19 */
     PORT_SetPinMux(BOARD_INITPINS_LCD_EN_PORT, BOARD_INITPINS_LCD_EN_PIN, kPORT_MuxAsGpio);
 
+    /* PORTB2 (pin G11) is configured as PTB2 */
+    PORT_SetPinMux(BOARD_INITPINS_RED_OUT_PORT, BOARD_INITPINS_RED_OUT_PIN, kPORT_MuxAsGpio);
+
+    /* PORTB3 (pin G10) is configured as PTB3 */
+    PORT_SetPinMux(BOARD_INITPINS_RED_IN_PORT, BOARD_INITPINS_RED_IN_PIN, kPORT_MuxAsGpio);
+
     /* PORTC18 (pin D7) is configured as PTC18 */
     PORT_SetPinMux(BOARD_INITPINS_LCD_D7_PORT, BOARD_INITPINS_LCD_D7_PIN, kPORT_MuxAsGpio);
 
@@ -135,6 +182,9 @@ void BOARD_InitPins(void)
 
     /* PORTC6 (pin A10) is configured as PTC6 */
     PORT_SetPinMux(BOARD_INITPINS_LCD_D4_PORT, BOARD_INITPINS_LCD_D4_PIN, kPORT_MuxAsGpio);
+
+    /* PORTD1 (pin A5) is configured as PTD1 */
+    PORT_SetPinMux(BOARD_INITPINS_BLUE_IN_PORT, BOARD_INITPINS_BLUE_IN_PIN, kPORT_MuxAsGpio);
 }
 /***********************************************************************************************************************
  * EOF

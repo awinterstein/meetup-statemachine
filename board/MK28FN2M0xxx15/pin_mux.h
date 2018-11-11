@@ -73,6 +73,34 @@ void BOARD_InitBootPins(void);
 #define BOARD_INITPINS_BUTTONS_ALL_ADC_PIN 7U     /*!<@brief PORTA pin index: 7 */
                                                   /* @} */
 
+/*! @name PORTA8 (coord K9), BLUE_OUT
+  @{ */
+#define BOARD_INITPINS_BLUE_OUT_GPIO GPIOA /*!<@brief GPIO device name: GPIOA */
+#define BOARD_INITPINS_BLUE_OUT_PORT PORTA /*!<@brief PORT device name: PORTA */
+#define BOARD_INITPINS_BLUE_OUT_PIN 8U     /*!<@brief PORTA pin index: 8 */
+                                           /* @} */
+
+/*! @name PORTD1 (coord A5), BLUE_IN
+  @{ */
+#define BOARD_INITPINS_BLUE_IN_GPIO GPIOD /*!<@brief GPIO device name: GPIOD */
+#define BOARD_INITPINS_BLUE_IN_PORT PORTD /*!<@brief PORT device name: PORTD */
+#define BOARD_INITPINS_BLUE_IN_PIN 1U     /*!<@brief PORTD pin index: 1 */
+                                          /* @} */
+
+/*! @name PORTB2 (coord G11), RED_OUT
+  @{ */
+#define BOARD_INITPINS_RED_OUT_GPIO GPIOB /*!<@brief GPIO device name: GPIOB */
+#define BOARD_INITPINS_RED_OUT_PORT PORTB /*!<@brief PORT device name: PORTB */
+#define BOARD_INITPINS_RED_OUT_PIN 2U     /*!<@brief PORTB pin index: 2 */
+                                          /* @} */
+
+/*! @name PORTB3 (coord G10), RED_IN
+  @{ */
+#define BOARD_INITPINS_RED_IN_GPIO GPIOB /*!<@brief GPIO device name: GPIOB */
+#define BOARD_INITPINS_RED_IN_PORT PORTB /*!<@brief PORT device name: PORTB */
+#define BOARD_INITPINS_RED_IN_PIN 3U     /*!<@brief PORTB pin index: 3 */
+                                         /* @} */
+
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *
