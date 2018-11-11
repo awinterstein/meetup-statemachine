@@ -8,6 +8,11 @@
 #ifndef HAL_HPP_
 #define HAL_HPP_
 
+#include <board.h>
+#include <peripherals.h>
+#include <pin_mux.h>
+#include <clock_config.h>
+
 #include "MK28F15.h"
 
 #include <CharDisplay.h>

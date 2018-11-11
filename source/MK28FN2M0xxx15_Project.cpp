@@ -32,10 +32,6 @@
  * @file    MK28FN2M0xxx15_Project.cpp
  * @brief   Application entry point.
  */
-#include <board.h>
-#include <peripherals.h>
-#include <pin_mux.h>
-#include <clock_config.h>
 
 /* TODO: insert other include files here. */
 #include <HAL.hpp>
