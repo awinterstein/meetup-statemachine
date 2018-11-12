@@ -29,7 +29,7 @@ public:
 	static int32_t getADCCount ()
 	{
         ADC16_SetChannelConfig(chanInfo.adc_, chanInfo.chanGroup_, chanInfo.chan_);
-        while (0U == (kADC16_ChannelConversionDoneFlag & ADC16_GetChannelStatusFlags(chanInfo.adc_, chanInfo.chanGroup_))) { }
+        while ( ! (kADC16_ChannelConversionDoneFlag & ADC16_GetChannelStatusFlags(chanInfo.adc_, chanInfo.chanGroup_))) { }
         return ADC16_GetChannelConversionValue(chanInfo.adc_, chanInfo.chanGroup_);
 	}
 
