@@ -15,12 +15,12 @@ namespace Driver {
 
 namespace
 {
-	inline static bool isDrivingHighLevel(GPIO_Type *base, uint32_t pin)
+	inline static bool isOutputSetToHigh(GPIO_Type *base, uint32_t pin)
 	{
 		return (((base->PDOR) >> pin) & 0x01U);
 	}
 
-	inline static bool isOutputConfigured(GPIO_Type *base, uint32_t pin)
+	inline static bool isConfiguredForOutput(GPIO_Type *base, uint32_t pin)
 	{
 		return (((base->PDDR) >> pin) & 0x01U);
 	}
@@ -33,9 +33,9 @@ public:
 	static void clr() { GPIO_WritePinOutput(reinterpret_cast<GPIO_Type*>(baseAddress), pin, 0); }
 	static bool read()
 	{
-		if (isOutputConfigured(reinterpret_cast<GPIO_Type*>(baseAddress), pin))
+		if (isConfiguredForOutput(reinterpret_cast<GPIO_Type*>(baseAddress), pin))
 		{
-			return isDrivingHighLevel(reinterpret_cast<GPIO_Type*>(baseAddress), pin);
+			return isOutputSetToHigh(reinterpret_cast<GPIO_Type*>(baseAddress), pin);
 		}
 		else
 		{
