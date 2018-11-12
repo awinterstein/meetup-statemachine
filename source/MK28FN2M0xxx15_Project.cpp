@@ -76,13 +76,9 @@ int main(void) {
 
     PRINTF("Hello World\n");
 
-    volatile static bool lcdtestTrigger = false;
-    if (lcdtestTrigger)
-    {
-    	DISPLAY::init();
-    	DISPLAY::writeTopLine("Button adc %.3f", BUTTON_ADC::getVoltage());
-    	DISPLAY::writeBottomLine("Button up: %c", BUTTON_UP::isPressed() ? 'h' : 'l');
-    }
+    DISPLAY::init();
+    DISPLAY::writeTopLine("Button adc %d", int32_t(BUTTON_ADC::getVoltage() * 1000));
+    DISPLAY::writeBottomLine("Button up: %c", BUTTON_UP::isPressed() ? 't' : 'f');
 
     /* Force the counter to be placed into memory. */
     volatile static int i = 0 ;
