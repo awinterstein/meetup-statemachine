@@ -38,7 +38,7 @@ public:
 		const auto rawADC = getADCCount();
 		const auto maxCount = pow(int32_t(2), bits) -1;
 		const float refVoltage  = float(referenceVoltage) / 1000;
-		return refVoltage * maxCount / rawADC;
+		return refVoltage * rawADC / maxCount;
 	}
 };
 
