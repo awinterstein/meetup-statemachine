@@ -26,6 +26,10 @@
                <pin_label pin_num="E12" pin_signal="PTB12/LPUART0_RTS_b/FTM1_CH0/FTM0_CH4/FB_A9/SDRAM_D9/FTM1_QD_PHA/TPM1_CH0" label="LCD_D5" identifier="LCD_D5"/>
                <pin_label pin_num="E11" pin_signal="PTB13/LPUART0_CTS_b/FTM1_CH1/FTM0_CH5/FB_A8/SDRAM_D8/FTM1_QD_PHB/TPM1_CH1" label="LCD_D6" identifier="LCD_D6"/>
                <pin_label pin_num="L10" pin_signal="ADC0_SE10/PTA7/I2C2_SDA/FTM0_CH4/TRACE_D3" label="BUTTONS_ALL_ADC" identifier="BUTTONS_ALL_ADC"/>
+               <pin_label pin_num="K9" pin_signal="ADC0_SE11/PTA8/I2C1_SCL/FTM1_CH0/FTM1_QD_PHA/TPM1_CH0/TRACE_D2" label="BLUE_OUT" identifier="BLUE_OUT"/>
+               <pin_label pin_num="A5" pin_signal="ADC0_SE5b/PTD1/SPI0_SCK/LPUART2_CTS_b/FTM3_CH1/FB_CS0_b/FXIO0_D23" label="BLUE_IN" identifier="BLUE_IN"/>
+               <pin_label pin_num="G11" pin_signal="ADC0_SE12/PTB2/I2C0_SCL/LPUART0_RTS_b/SDRAM_WE_b/FTM0_FLT3/FXIO0_D2" label="RED_OUT" identifier="RED_OUT"/>
+               <pin_label pin_num="G10" pin_signal="ADC0_SE13/PTB3/I2C0_SDA/LPUART0_CTS_b/SDRAM_CS0_b/FTM0_FLT0/FXIO0_D3" label="RED_IN" identifier="RED_IN"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -90,6 +94,26 @@
                      </pin_features>
                   </pin>
                   <pin peripheral="ADC0" signal="SE, 10" pin_num="L10" pin_signal="ADC0_SE10/PTA7/I2C2_SDA/FTM0_CH4/TRACE_D3"/>
+                  <pin peripheral="GPIOA" signal="GPIO, 8" pin_num="K9" pin_signal="ADC0_SE11/PTA8/I2C1_SCL/FTM1_CH0/FTM1_QD_PHA/TPM1_CH0/TRACE_D2">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIOD" signal="GPIO, 1" pin_num="A5" pin_signal="ADC0_SE5b/PTD1/SPI0_SCK/LPUART2_CTS_b/FTM3_CH1/FB_CS0_b/FXIO0_D23">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIOB" signal="GPIO, 2" pin_num="G11" pin_signal="ADC0_SE12/PTB2/I2C0_SCL/LPUART0_RTS_b/SDRAM_WE_b/FTM0_FLT3/FXIO0_D2">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIOB" signal="GPIO, 3" pin_num="G10" pin_signal="ADC0_SE13/PTB3/I2C0_SDA/LPUART0_CTS_b/SDRAM_CS0_b/FTM0_FLT0/FXIO0_D3">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                     </pin_features>
+                  </pin>
                </pins>
             </function>
          </functions_list>
