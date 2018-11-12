@@ -19,6 +19,8 @@
 
 #include <macro_push.h>
 
+namespace HAL {
+
 using LCD_D7		= Driver::GPIOPin<BOARD_INITPINS_LCD_D7_GPIO, BOARD_INITPINS_LCD_D7_PIN>;
 using LCD_D6		= Driver::GPIOPin<BOARD_INITPINS_LCD_D6_GPIO, BOARD_INITPINS_LCD_D6_PIN>;
 using LCD_D5		= Driver::GPIOPin<BOARD_INITPINS_LCD_D5_GPIO, BOARD_INITPINS_LCD_D5_PIN>;
@@ -39,6 +41,8 @@ using BLUE_IN		= Driver::GPIOPin<BOARD_INITPINS_BLUE_IN_GPIO,	BOARD_INITPINS_BLU
 
 using WIRE_RED		= Driver::Wire<RED_OUT, RED_IN>;
 using WIRE_BLUE		= Driver::Wire<BLUE_OUT, BLUE_IN>;
+
+} // namespace HAL
 
 #include <macro_pop.h>
 

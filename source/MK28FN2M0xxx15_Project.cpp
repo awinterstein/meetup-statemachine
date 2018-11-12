@@ -53,9 +53,9 @@ int main(void) {
   	/* Init FSL debug console. */
 	BOARD_InitDebugConsole();
 
-    DISPLAY::init();
-    DISPLAY::writeTopLine("Button adc %d", int32_t(COMMON_ADC::getVoltage() * 1000));
-    DISPLAY::writeBottomLine("Button up: %c", BUTTON_UP::isPressed() ? 't' : 'f');
+    HAL::DISPLAY::init();
+    HAL::DISPLAY::writeTopLine("Button adc %d", int32_t(HAL::COMMON_ADC::getVoltage() * 1000));
+    HAL::DISPLAY::writeBottomLine("Button up: %c", HAL::BUTTON_UP::isPressed() ? 't' : 'f');
 
     /* Enter an infinite loop, just incrementing a counter. */
     while(true) {}
