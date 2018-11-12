@@ -15,11 +15,11 @@ namespace Driver {
 template <typename sourcePin, typename sinkPin>
 class Wire {
 public:
-	static bool isCutted()
+	static bool isConnected()
 	{
 		invertPins();
 		delayMicroSec(10);
-		return sourcePin::read() != sinkPin::read();
+		return sourcePin::read() == sinkPin::read();
 	}
 
 private:
