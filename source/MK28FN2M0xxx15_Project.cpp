@@ -33,35 +33,14 @@
  * @brief   Application entry point.
  */
 #include <board.h>
-#include <clock_config.h>
-#include <stdio.h>
-#include "MK28F15.h"
-#include "fsl_debug_console.h"
-/* TODO: insert other include files here. */
-
 #include <peripherals.h>
 #include <pin_mux.h>
+#include <clock_config.h>
 
-#include <CharDisplay.h>
-#include <GPIOPin.h>
-#include <ParallelBus.h>
-#include <ADCChannelSingle.h>
-#include <ButtonOverADC.h>
+/* TODO: insert other include files here. */
+#include <HAL.hpp>
 
 /* TODO: insert other definitions and declarations here. */
-DECLARE_PIN_AS(BOARD_INITPINS_LCD_D7, LCD_D7);
-DECLARE_PIN_AS(BOARD_INITPINS_LCD_D6, LCD_D6);
-DECLARE_PIN_AS(BOARD_INITPINS_LCD_D5, LCD_D5);
-DECLARE_PIN_AS(BOARD_INITPINS_LCD_D4, LCD_D4);
-DECLARE_PIN_AS(BOARD_INITPINS_LCD_EN, LCD_EN);
-DECLARE_PIN_AS(BOARD_INITPINS_LCD_RS, LCD_RS);
-
-using LCD_DATABUS = Driver::ParallelBus<LCD_D4, LCD_D5, LCD_D6, LCD_D7>;
-using DISPLAY = Driver::CharDisplay<LCD_RS, LCD_EN, LCD_DATABUS>;
-
-DECLARE_ADC_CHANNEL_AS(BUTTON_ADC, 0, BUTTON_ADC);
-
-using BUTTON_UP = Driver::ButtonOverADC<BUTTON_ADC, 1000lu, 100lu>;
 
 /*
  * @brief   Application entry point.
@@ -74,18 +53,11 @@ int main(void) {
   	/* Init FSL debug console. */
 	BOARD_InitDebugConsole();
 
-    PRINTF("Hello World\n");
-
     DISPLAY::init();
-    DISPLAY::writeTopLine("Button adc %d", int32_t(BUTTON_ADC::getVoltage() * 1000));
+    DISPLAY::writeTopLine("Button adc %d", int32_t(COMMON_ADC::getVoltage() * 1000));
     DISPLAY::writeBottomLine("Button up: %c", BUTTON_UP::isPressed() ? 't' : 'f');
 
-    /* Force the counter to be placed into memory. */
-    volatile static int i = 0 ;
-
     /* Enter an infinite loop, just incrementing a counter. */
-    while(1) {
-        i++ ;
-    }
+    while(true) {}
     return 0 ;
 }

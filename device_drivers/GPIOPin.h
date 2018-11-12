@@ -13,20 +13,31 @@
 
 namespace Driver {
 
-struct pinInfo {
-	PORT_Type* port_;
-	GPIO_Type* gpio_;
-	uint32_t   pin_;
-};
+/*
+constexpr GPIO_Type * convertAddressToPtr (uint32_t inputAddress)
+{
+	constexpr uint32_t adds[] = GPIO_BASE_ADDRS;
+	constexpr GPIO_Type * ptrs[] = GPIO_BASE_PTRS;
+	uint32_t i = 0;
 
-#define DECLARE_PIN_AS(Pinname, TypeName)	constexpr Driver::pinInfo CONCAT_EXP(Pinname, TypeName) { Pinname##_PORT, Pinname##_GPIO, Pinname##_PIN}; using TypeName = Driver::GPIOPin<CONCAT_EXP(Pinname, TypeName)>;
+	for (auto& gpio : adds)
+	{
+		if (gpio == inputAddress)
+		{
+			return ptrs[i];
+		}
+		i++;
+	}
+	return nullptr;
+}
+*/
 
-template <const pinInfo& pinInformation>
+template <uint32_t baseAddress, uint32_t pin>
 class GPIOPin {
 public:
-	static void set() { GPIO_WritePinOutput(pinInformation.gpio_, pinInformation.pin_, 1); }
-	static void clr() { GPIO_WritePinOutput(pinInformation.gpio_, pinInformation.pin_, 0); }
-	static bool read() { return GPIO_PinRead(pinInformation.gpio_, pinInformation.pin_); }
+	static void set() { GPIO_WritePinOutput(reinterpret_cast<GPIO_Type*>(baseAddress), pin, 1); }
+	static void clr() { GPIO_WritePinOutput(reinterpret_cast<GPIO_Type*>(baseAddress), pin, 0); }
+	static bool read() { return GPIO_PinRead(reinterpret_cast<GPIO_Type*>(baseAddress), pin); }
 };
 
 } /* namespace Driver */
