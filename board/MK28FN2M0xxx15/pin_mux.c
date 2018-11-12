@@ -19,6 +19,7 @@ pin_labels:
 - {pin_num: D11, pin_signal: PTB19/SDRAM_CKE/FTM2_CH1/I2S0_TX_FS/FB_OE_b/FTM2_QD_PHB/TPM2_CH1/FXIO0_D7, label: LCD_EN, identifier: LCD_EN}
 - {pin_num: E12, pin_signal: PTB12/LPUART0_RTS_b/FTM1_CH0/FTM0_CH4/FB_A9/SDRAM_D9/FTM1_QD_PHA/TPM1_CH0, label: LCD_D5, identifier: LCD_D5}
 - {pin_num: E11, pin_signal: PTB13/LPUART0_CTS_b/FTM1_CH1/FTM0_CH5/FB_A8/SDRAM_D8/FTM1_QD_PHB/TPM1_CH1, label: LCD_D6, identifier: LCD_D6}
+- {pin_num: L10, pin_signal: ADC0_SE10/PTA7/I2C2_SDA/FTM0_CH4/TRACE_D3, label: BUTTONS_ALL_ADC, identifier: BUTTONS_ALL_ADC}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -52,6 +53,7 @@ BOARD_InitPins:
   - {pin_num: D11, peripheral: GPIOB, signal: 'GPIO, 19', pin_signal: PTB19/SDRAM_CKE/FTM2_CH1/I2S0_TX_FS/FB_OE_b/FTM2_QD_PHB/TPM2_CH1/FXIO0_D7, direction: OUTPUT}
   - {pin_num: E12, peripheral: GPIOB, signal: 'GPIO, 12', pin_signal: PTB12/LPUART0_RTS_b/FTM1_CH0/FTM0_CH4/FB_A9/SDRAM_D9/FTM1_QD_PHA/TPM1_CH0, direction: OUTPUT}
   - {pin_num: E11, peripheral: GPIOB, signal: 'GPIO, 13', pin_signal: PTB13/LPUART0_CTS_b/FTM1_CH1/FTM0_CH5/FB_A8/SDRAM_D8/FTM1_QD_PHB/TPM1_CH1, direction: OUTPUT}
+  - {pin_num: L10, peripheral: ADC0, signal: 'SE, 10', pin_signal: ADC0_SE10/PTA7/I2C2_SDA/FTM0_CH4/TRACE_D3}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -64,6 +66,8 @@ BOARD_InitPins:
  * END ****************************************************************************************************************/
 void BOARD_InitPins(void)
 {
+    /* Port A Clock Gate Control: Clock enabled */
+    CLOCK_EnableClock(kCLOCK_PortA);
     /* Port B Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortB);
     /* Port C Clock Gate Control: Clock enabled */
@@ -110,6 +114,9 @@ void BOARD_InitPins(void)
     };
     /* Initialize GPIO functionality on pin PTC19 (pin C7)  */
     GPIO_PinInit(BOARD_INITPINS_LCD_RS_GPIO, BOARD_INITPINS_LCD_RS_PIN, &LCD_RS_config);
+
+    /* PORTA7 (pin L10) is configured as ADC0_SE10 */
+    PORT_SetPinMux(BOARD_INITPINS_BUTTONS_ALL_ADC_PORT, BOARD_INITPINS_BUTTONS_ALL_ADC_PIN, kPORT_PinDisabledOrAnalog);
 
     /* PORTB12 (pin E12) is configured as PTB12 */
     PORT_SetPinMux(BOARD_INITPINS_LCD_D5_PORT, BOARD_INITPINS_LCD_D5_PIN, kPORT_MuxAsGpio);

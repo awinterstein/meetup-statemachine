@@ -9,11 +9,9 @@
 #define DRIVERS_GPIOPIN_H_
 
 #include <fsl_gpio.h>
+#include <macro_utilities.h>
 
 namespace Driver {
-
-#define CONCAT_NOEXP(x, y)	x##y
-#define CONCAT_EXP(x, y)	CONCAT_NOEXP(x, y)
 
 struct pinInfo {
 	PORT_Type* port_;
@@ -21,7 +19,7 @@ struct pinInfo {
 	uint32_t   pin_;
 };
 
-#define DECLARE_PIN_AS(Pinname, TypeName)	constexpr Driver::pinInfo CONCAT_EXP(pin, __LINE__) { Pinname##_PORT, Pinname##_GPIO, Pinname##_PIN}; using TypeName = Driver::GPIOPin<CONCAT_EXP(pin, __LINE__)>;
+#define DECLARE_PIN_AS(Pinname, TypeName)	constexpr Driver::pinInfo CONCAT_EXP(Pinname, TypeName) { Pinname##_PORT, Pinname##_GPIO, Pinname##_PIN}; using TypeName = Driver::GPIOPin<CONCAT_EXP(Pinname, TypeName)>;
 
 template <const pinInfo& pinInformation>
 class GPIOPin {
