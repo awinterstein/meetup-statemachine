@@ -40,7 +40,11 @@ using LCD_RS		= Driver::GPIOPin<BOARD_INITPINS_LCD_RS_GPIO, BOARD_INITPINS_LCD_R
 using DISPLAY		= Driver::CharDisplay<LCD_RS, LCD_EN, LCD_DATABUS, MonoClock>;
 
 using COMMON_ADC	= Driver::ADCChannelSingle<BUTTON_ADC_PERIPHERAL, BUTTON_ADC_channelsConfig, 3300, 12>;
-using BUTTON_UP		= Driver::ButtonOverADC<COMMON_ADC, 1000lu, 100lu>;
+using BUTTON_RIGHT	= Driver::ButtonOverADC<COMMON_ADC, 0l, 100l>;
+using BUTTON_UP		= Driver::ButtonOverADC<COMMON_ADC, 490l, 100l>;
+using BUTTON_DOWN	= Driver::ButtonOverADC<COMMON_ADC, 1250l, 100l>;
+using BUTTON_LEFT	= Driver::ButtonOverADC<COMMON_ADC, 1980l, 100l>;
+using BUTTON_SELECT	= Driver::ButtonOverADC<COMMON_ADC, 3090l, 100l>;
 
 using RED_OUT		= Driver::GPIOPin<BOARD_INITPINS_RED_OUT_GPIO,	BOARD_INITPINS_RED_OUT_PIN>;
 using RED_IN		= Driver::GPIOPin<BOARD_INITPINS_RED_IN_GPIO,	BOARD_INITPINS_RED_IN_PIN>;

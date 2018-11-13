@@ -25,8 +25,8 @@ public:
 	}
 
 private:
-	static constexpr auto lowerBound_ = targetVoltage - voltageTollerance;
-	static constexpr auto upperBound_ = targetVoltage + voltageTollerance;
+	static constexpr auto lowerBound_ = float(targetVoltage - voltageTollerance) / 1000.0f;
+	static constexpr auto upperBound_ = float(targetVoltage + voltageTollerance) / 1000.0f;
 };
 
 
