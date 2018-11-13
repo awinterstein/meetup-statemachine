@@ -58,16 +58,7 @@ int main(void) {
 		HAL::DISPLAY::writeTopLine("Button adc %d", int32_t(HAL::COMMON_ADC::getVoltage() * 1000));
 		HAL::DISPLAY::writeBottomLine("Button up: %c", HAL::BUTTON_UP::isPressed() ? 't' : 'f');
 
-		while( true )
-		{
-			const auto now = HAL::MonoClock::milliseconds();
-			const auto diff = now - startTime;
-
-			if (diff > std::chrono::seconds(5))
-			{
-				break;
-			}
-		}
+		while( HAL::MonoClock::milliseconds() - startTime < std::chrono::seconds(1) );
 	}
 
     return 0;
