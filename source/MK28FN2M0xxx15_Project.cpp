@@ -49,11 +49,26 @@ int main(void) {
   	/* Init FSL debug console. */
 	BOARD_InitDebugConsole();
 
-    HAL::DISPLAY::init();
-    HAL::DISPLAY::writeTopLine("Button adc %d", int32_t(HAL::COMMON_ADC::getVoltage() * 1000));
-    HAL::DISPLAY::writeBottomLine("Button up: %c", HAL::BUTTON_UP::isPressed() ? 't' : 'f');
+	HAL::DISPLAY::init();
 
-    /* Enter an infinite loop, just incrementing a counter. */
-    while(true) {}
-    return 0 ;
+	while (1)
+	{
+		const auto startTime = HAL::MonoClock::milliseconds();
+
+		HAL::DISPLAY::writeTopLine("Button adc %d", int32_t(HAL::COMMON_ADC::getVoltage() * 1000));
+		HAL::DISPLAY::writeBottomLine("Button up: %c", HAL::BUTTON_UP::isPressed() ? 't' : 'f');
+
+		while( true )
+		{
+			const auto now = HAL::MonoClock::milliseconds();
+			const auto diff = now - startTime;
+
+			if (diff > std::chrono::seconds(5))
+			{
+				break;
+			}
+		}
+	}
+
+    return 0;
 }

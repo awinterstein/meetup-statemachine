@@ -20,17 +20,23 @@ class MonotonicClock {
 public:
 	static std::chrono::milliseconds milliseconds()
 	{
-		const auto clockFrequency = CLOCK_GetFreq(clockSource);
 		const auto instance = reinterpret_cast<PIT_Type*>(pitBase);
-		const auto lifetimeCount = std::numeric_limits<uint64_t>::max() - PIT_GetLifetimeTimerCount(instance);
-
-		return std::chrono::milliseconds{COUNT_TO_MSEC(lifetimeCount, clockFrequency)};
+		return convertLifeTimeToTime(PIT_GetLifetimeTimerCount(instance));
 	}
 
 	static void delay (std::chrono::milliseconds msToBusyWait)
 	{
 		const auto start = milliseconds();
 		while (milliseconds() - start < msToBusyWait) {};
+	}
+private:
+	static std::chrono::milliseconds convertLifeTimeToTime (uint64_t liveTimeCount)
+	{
+		const auto clockFrequency	= CLOCK_GetFreq(clockSource);
+		const auto sec				= std::chrono::seconds{TIMEBASE_1_TICKS - uint32_t(liveTimeCount >> 32U)};
+		const auto lowCount			= TIMEBASE_0_TICKS - uint32_t(0xFFFFFFFF & liveTimeCount);
+		const auto msec				= std::chrono::milliseconds{COUNT_TO_MSEC(lowCount, clockFrequency)};
+		return sec + msec;
 	}
 };
 
