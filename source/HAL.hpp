@@ -27,7 +27,8 @@
 
 namespace HAL {
 
-using MonoClock		= Driver::MonotonicClock<TIMEBASE_PERIPHERAL, TIMEBASE_CLOCK_SOURCE>;
+struct TIMEBASE_0_Functor { uint32_t operator() () {  return TIMEBASE_0_TICKS; }; };
+using MonoClock		= Driver::MonotonicClock<TIMEBASE_PERIPHERAL, TIMEBASE_CLOCK_SOURCE, TIMEBASE_1_TICKS, TIMEBASE_0_Functor>;
 
 using LCD_D7		= Driver::GPIOPin<BOARD_INITPINS_LCD_D7_GPIO, BOARD_INITPINS_LCD_D7_PIN>;
 using LCD_D6		= Driver::GPIOPin<BOARD_INITPINS_LCD_D6_GPIO, BOARD_INITPINS_LCD_D6_PIN>;
