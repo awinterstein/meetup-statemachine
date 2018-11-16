@@ -30,15 +30,9 @@
 
 namespace Driver {
 
-namespace {
-	#warning "Replace by something that makes more sense"
-	inline static void delayMicroSec (uint32_t uSec)
-	{
-		for (uint64_t volatile i = uSec; i ; i--) {}
-	}
-}
+using namespace std::chrono_literals;
 
-template <typename registerSelect, typename enablaData, typename dataBus>
+template <typename registerSelect, typename enablaData, typename dataBus, typename monoClock>
 class CharDisplay {
 public:
 	using DisplayLine = std::array<char, 16>;
@@ -47,16 +41,17 @@ public:
 	{
 		enablaData::set();
 	    registerSelect::clr();
-	    delayMicroSec(15000u);
+
+	    monoClock::delay(15ms);
 
 	    for (int32_t i=3; i>0; i--)
 	    {
 	        writeByte(0x3);
-	        delayMicroSec(1640u);
+	        monoClock::delay(3ms);
 	    }
 
 	    writeByte(0x2);
-	    delayMicroSec(40u);
+	    monoClock::delay(2ms);
 
 	    writeCommand(0x28);
 	    writeCommand(0x0C);
@@ -67,7 +62,7 @@ public:
 	static void cls()
 	{
 		writeCommand(0x01);
-		Driver::delayMicroSec(1640u);
+		monoClock::delay(3ms);
 	}
 
 	template<typename... Targs>
@@ -104,15 +99,15 @@ private:
 	static void writeByte (const int32_t value)
 	{
 		dataBus::setBytes(value >> 4);
-	    delayMicroSec(40);
+		monoClock::delay(2ms);
 	    enablaData::clr();
-	    delayMicroSec(40);
+	    monoClock::delay(2ms);
 	    enablaData::set();
 
 		dataBus::setBytes(value >> 0);
-	    delayMicroSec(40);
+		monoClock::delay(2ms);
 	    enablaData::clr();
-	    delayMicroSec(40);
+	    monoClock::delay(2ms);
 	    enablaData::set();
 	}
 

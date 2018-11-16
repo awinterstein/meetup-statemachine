@@ -12,13 +12,15 @@
 
 namespace Driver {
 
-template <typename sourcePin, typename sinkPin>
+using namespace std::chrono_literals;
+
+template <typename sourcePin, typename sinkPin, typename monoClock>
 class Wire {
 public:
 	static bool isConnected()
 	{
 		invertPins();
-		delayMicroSec(10);
+		monoClock::milliseconds(2ms);
 		return sourcePin::read() == sinkPin::read();
 	}
 

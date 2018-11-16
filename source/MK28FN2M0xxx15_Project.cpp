@@ -32,10 +32,6 @@
  * @file    MK28FN2M0xxx15_Project.cpp
  * @brief   Application entry point.
  */
-#include <board.h>
-#include <peripherals.h>
-#include <pin_mux.h>
-#include <clock_config.h>
 
 /* TODO: insert other include files here. */
 #include <HAL.hpp>
@@ -53,11 +49,21 @@ int main(void) {
   	/* Init FSL debug console. */
 	BOARD_InitDebugConsole();
 
-    HAL::DISPLAY::init();
-    HAL::DISPLAY::writeTopLine("Button adc %d", int32_t(HAL::COMMON_ADC::getVoltage() * 1000));
-    HAL::DISPLAY::writeBottomLine("Button up: %c", HAL::BUTTON_UP::isPressed() ? 't' : 'f');
+	HAL::DISPLAY::init();
 
-    /* Enter an infinite loop, just incrementing a counter. */
-    while(true) {}
-    return 0 ;
+	while (1)
+	{
+		const auto startTime = HAL::MonoClock::milliseconds();
+
+		HAL::DISPLAY::writeTopLine("Button adc %d", int32_t(HAL::COMMON_ADC::getVoltage() * 1000));
+		HAL::DISPLAY::writeBottomLine("Pressed: %s", HAL::BUTTON_SELECT::isPressed()	? "SEL"		:
+				 	 	 	 	 	 	 	 	 	 HAL::BUTTON_LEFT::isPressed()		? "LEFT" 	:
+													 HAL::BUTTON_DOWN::isPressed()		? "DOWN" 	:
+													 HAL::BUTTON_UP::isPressed()		? "UP" 		:
+													 HAL::BUTTON_RIGHT::isPressed()		? "RIGHT" 	: "NONE");
+
+		while( HAL::MonoClock::milliseconds() - startTime < std::chrono::seconds(1) );
+	}
+
+    return 0;
 }
