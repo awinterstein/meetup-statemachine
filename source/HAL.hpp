@@ -13,13 +13,7 @@
 #include <pin_mux.h>
 #include <clock_config.h>
 
-#if defined(CPU_MK66FN2M0VMD18)
-	#include "MK66F18.h"
-#elif defined(CPU_MK28FN2M0VMI15)
-	#include "MK28F15.h"
-#else
-	#error "unknown mcu configuration"
-#endif
+#include <fsl_device_registers.h>
 
 #include <MonotonicClock.h>
 #include <CharDisplay.h>
