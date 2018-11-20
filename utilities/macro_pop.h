@@ -5,6 +5,10 @@
 	#pragma pop_macro("ADC0")
 #endif
 
+#ifdef RESTORE_ADC1
+	#pragma pop_macro("ADC1")
+#endif
+
 #ifdef RESTORE_GPIOA
 	#pragma pop_macro("GPIOA")
 #endif
@@ -23,6 +27,10 @@
 
 #ifdef RESTORE_GPIOE
 	#pragma pop_macro("GPIOE")
+#endif
+
+#ifdef RESTORE_PIT
+	#pragma pop_macro("PIT")
 #endif
 
 #ifdef RESTORE_PIT0

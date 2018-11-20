@@ -8,6 +8,13 @@
 	#define RESTORE_ADC0
 #endif
 
+#ifdef ADC1
+	#pragma push_macro("ADC1")
+	#undef ADC1
+	#define ADC1 ADC1_BASE
+	#define RESTORE_ADC1
+#endif
+
 #ifdef GPIOA
 	#pragma push_macro("GPIOA")
 	#undef GPIOA
@@ -41,6 +48,13 @@
 	#undef GPIOE
 	#define GPIOE GPIOE_BASE
 	#define RESTORE_GPIOE
+#endif
+
+#ifdef PIT
+	#pragma push_macro("PIT")
+	#undef PIT
+	#define PIT PIT_BASE
+	#define RESTORE_PIT
 #endif
 
 #ifdef PIT0
