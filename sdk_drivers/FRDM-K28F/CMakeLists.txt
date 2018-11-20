@@ -9,6 +9,7 @@ add_library(sdk_drivers OBJECT
     fsl_gpio
     fsl_i2c
     fsl_lpuart
+    fsl_pit
     fsl_rtc
     fsl_smc
 )
