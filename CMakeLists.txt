@@ -32,7 +32,7 @@ add_subdirectory(board/${HARDWARE_PLATFORM})
 add_subdirectory(sdk_drivers/${HARDWARE_PLATFORM})
 
 add_executable(${HARDWARE_PLATFORM}
-	source/MK28FN2M0xxx15_Project.cpp
+	source/stateMaschine.cpp
 	source/semihost_hardfault.c
 	$<TARGET_OBJECTS:board>
 	$<TARGET_OBJECTS:sdk_drivers>)
