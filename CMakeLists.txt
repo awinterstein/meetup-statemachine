@@ -16,8 +16,8 @@ add_definitions(-D__NEWLIB__ -DSDK_DEBUGCONSOLE=0 -D__MCUXPRESSO -D__USE_CMSIS -
 
 set(CMAKE_EXECUTABLE_FORMAT "ELF")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -fno-common -g3 -Wall -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb ${EXTRA_C_FLAGS}")
-  set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -nostdlib ${EXTRA_CXX_FLAGS}")
-  set(CMAKE_EXE_LINKER_FLAGS "-Xlinker --gc-sections -Xlinker -print-memory-usage")
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -nostdlib ${EXTRA_CXX_FLAGS}")
+set(CMAKE_EXE_LINKER_FLAGS "-Xlinker --gc-sections -Xlinker -print-memory-usage")
 
 copy_linker_scripts()
 
