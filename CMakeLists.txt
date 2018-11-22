@@ -19,7 +19,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -fno-common -g3 -Wall -fmessage-length=0 -f
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -nostdlib ${EXTRA_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "-Xlinker --gc-sections -Xlinker -print-memory-usage")
 
-copy_linker_scripts()
+set(LAUNCH_EXECUTABLE_NAME ${HARDWARE_PLATFORM})
 
 add_subdirectory(board/${HARDWARE_PLATFORM}) 
 add_subdirectory(sdk_drivers/${HARDWARE_PLATFORM})
@@ -31,3 +31,7 @@ add_executable(firmware
 	$<TARGET_OBJECTS:sdk_drivers>)
 target_include_directories(firmware PRIVATE source device_drivers utilities)
 add_object_dependencies(firmware board sdk_drivers)
+
+configure_file("${CMAKE_SOURCE_DIR}/launch.cfg" "${CMAKE_BINARY_DIR}/${LAUNCH_EXECUTABLE_NAME}.launch")
+copy_linker_scripts()
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Xlinker -Map=${LAUNCH_EXECUTABLE_NAME}.map")
