@@ -68,22 +68,20 @@ public:
 	template<typename... Targs>
 	static void writeTopLine(const char* fmt, Targs... args)
 	{
-		DisplayLine buffer;
-		buffer.fill(0x00);
-		snprintf(buffer.data(), buffer.size(), fmt, args...);
-		writeLine(0, buffer);
+		const auto line = writeBuffer(fmt, args...);
+		writeLine(0, line);
 	}
 
 	template<typename... Targs>
 	static void writeBottomLine(const char* fmt, Targs... args)
 	{
-		DisplayLine buffer;
-		buffer.fill(0x00);
-		snprintf(buffer.data(), buffer.size(), fmt, args...);
-		writeLine(1, buffer);
+		const auto line = writeBuffer(fmt, args...);
+		writeLine(1, line);
 	}
 
 private:
+	using TerminatedBuffer = std::array<char, sizeof(DisplayLine) + 1>;
+
 	static int32_t address (const uint32_t column, const uint32_t row)
 	{
 		return 0x80 + (row * 0x40) + column;
@@ -123,7 +121,7 @@ private:
 		writeByte(data);
 	}
 
-	static void writeLine (uint32_t row, DisplayLine& buffer)
+	static void writeLine (uint32_t row, const DisplayLine& buffer)
 	{
 	    for (auto& c : buffer)
 		{
@@ -137,6 +135,18 @@ private:
 				character(column, row, ' ');
 			}
 		}
+	}
+
+	template<typename... Targs>
+	static DisplayLine writeBuffer (const char* fmt, Targs... args)
+	{
+		TerminatedBuffer buffer;
+		snprintf(buffer.data(), buffer.size(), fmt, args...);
+
+		DisplayLine line;
+		line.fill(0x00);
+		strncpy(line.data(), buffer.data(),line.size());
+		return line;
 	}
 };
 
