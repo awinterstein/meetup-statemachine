@@ -47,11 +47,11 @@ public:
 	    for (int32_t i=3; i>0; i--)
 	    {
 	        writeByte(0x3);
-	        monoClock::delay(3ms);
+	        monoClock::delay(2000us);
 	    }
 
 	    writeByte(0x2);
-	    monoClock::delay(2ms);
+	    monoClock::delay(50us);
 
 	    writeCommand(0x28);
 	    writeCommand(0x0C);
@@ -62,7 +62,7 @@ public:
 	static void cls()
 	{
 		writeCommand(0x01);
-		monoClock::delay(3ms);
+		monoClock::delay(2000us);
 	}
 
 	template<typename... Targs>
@@ -97,15 +97,15 @@ private:
 	static void writeByte (const int32_t value)
 	{
 		dataBus::setBytes(value >> 4);
-		monoClock::delay(2ms);
+		monoClock::delay(50us);
 	    enablaData::clr();
-	    monoClock::delay(2ms);
+	    monoClock::delay(50us);
 	    enablaData::set();
 
 		dataBus::setBytes(value >> 0);
-		monoClock::delay(2ms);
+		monoClock::delay(50us);
 	    enablaData::clr();
-	    monoClock::delay(2ms);
+	    monoClock::delay(50us);
 	    enablaData::set();
 	}
 

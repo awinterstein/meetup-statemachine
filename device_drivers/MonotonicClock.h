@@ -21,7 +21,7 @@ public:
 
 #if defined(FSL_FEATURE_PIT_HAS_LIFETIME_TIMER) && FSL_FEATURE_PIT_HAS_LIFETIME_TIMER
 
-	static std::chrono::milliseconds milliseconds()
+	static std::chrono::microseconds microseconds()
 	{
 		const auto instance = reinterpret_cast<PIT_Type*>(pitBase);
 		const auto count	= PIT_GetLifetimeTimerCount(instance);
@@ -30,7 +30,7 @@ public:
 
 #else
 
-	static std::chrono::milliseconds milliseconds()
+	static std::chrono::microseconds microseconds()
 	{
 		const auto instance = reinterpret_cast<PIT_Type*>(pitBase);
 		const auto high		= PIT_GetCurrentTimerCount(instance, kPIT_Chnl_1);
@@ -42,20 +42,20 @@ public:
 #endif
 
 
-	static void delay (std::chrono::milliseconds msToBusyWait)
+	static void delay (std::chrono::microseconds microToBusyWait)
 	{
-		const auto start = milliseconds();
-		while (milliseconds() - start < msToBusyWait) {};
+		const auto start = microseconds();
+		while (microseconds() - start < microToBusyWait) {};
 	}
 
 private:
-	static std::chrono::milliseconds convertLifeTimeToTime (uint64_t liveTimeCount)
+	static std::chrono::microseconds convertLifeTimeToTime (uint64_t liveTimeCount)
 	{
 		const auto clockFrequency	= CLOCK_GetFreq(clockSource);
 		const auto sec				= std::chrono::seconds{secondsDowncountingMax - uint32_t(liveTimeCount >> 32U)};
 		const auto lowCount			= msGetter{}() - uint32_t(0xFFFFFFFF & liveTimeCount);
-		const auto msec				= std::chrono::milliseconds{COUNT_TO_MSEC(lowCount, clockFrequency)};
-		return sec + msec;
+		const auto microsec			= std::chrono::milliseconds{COUNT_TO_USEC(lowCount, clockFrequency)};
+		return sec + microsec;
 	}
 };
 
