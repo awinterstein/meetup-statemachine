@@ -9,8 +9,10 @@ set_property(CACHE HARDWARE_PLATFORM PROPERTY STRINGS FRDM-K66F FRDM-K28F)
 
 if (HARDWARE_PLATFORM STREQUAL "FRDM-K28F")
     set(CPU MK28FN2M0VMI15)
+    set(CMAKE_LAUNCH_CPU MK28FN2M0xxx15)
 elseif (HARDWARE_PLATFORM STREQUAL "FRDM-K66F")
     set(CPU MK66FN2M0VMD18)
+    set(CMAKE_LAUNCH_CPU MK66FN2M0xxx18)
 endif ()
 
 set(EXTRA_CXX_FLAGS "-std=c++14")
@@ -26,13 +28,13 @@ set(LAUNCH_EXECUTABLE_NAME ${HARDWARE_PLATFORM})
 add_subdirectory(board/${HARDWARE_PLATFORM}) 
 add_subdirectory(sdk_drivers/${HARDWARE_PLATFORM})
 
-add_executable(firmware
+add_executable(${HARDWARE_PLATFORM}
 	source/MK28FN2M0xxx15_Project.cpp
 	source/semihost_hardfault.c
 	$<TARGET_OBJECTS:board>
 	$<TARGET_OBJECTS:sdk_drivers>)
-target_include_directories(firmware PRIVATE source device_drivers utilities)
-add_object_dependencies(firmware board sdk_drivers)
+target_include_directories(${HARDWARE_PLATFORM} PRIVATE source device_drivers utilities)
+add_object_dependencies(${HARDWARE_PLATFORM} board sdk_drivers)
 
 configure_file("${CMAKE_SOURCE_DIR}/launch.cfg" "${CMAKE_BINARY_DIR}/${LAUNCH_EXECUTABLE_NAME}.launch")
 copy_linker_scripts()
