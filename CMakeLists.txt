@@ -38,7 +38,7 @@ add_executable(${LAUNCH_EXECUTABLE_NAME}
 	source/semihost_hardfault.c
 	$<TARGET_OBJECTS:board>
 	$<TARGET_OBJECTS:sdk_drivers>)         
-target_include_directories(${LAUNCH_EXECUTABLE_NAME} PRIVATE source device_drivers utilities ~/boost/include)
+target_include_directories(${LAUNCH_EXECUTABLE_NAME} PRIVATE source device_drivers utilities ~/boost/include DSL ~/Projects/state_machine_DSL/support)
 add_object_dependencies(${LAUNCH_EXECUTABLE_NAME} board sdk_drivers)
 configure_file("${CMAKE_SOURCE_DIR}/launch.cfg" "${CMAKE_BINARY_DIR}/${LAUNCH_EXECUTABLE_NAME}.launch")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Xlinker -Map=${LAUNCH_EXECUTABLE_NAME}.map")
