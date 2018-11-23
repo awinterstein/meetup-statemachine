@@ -30,9 +30,6 @@ add_subdirectory(board/${HARDWARE_PLATFORM})
 add_subdirectory(sdk_drivers/${HARDWARE_PLATFORM})
 
 
-
-# --------------------------------------------------
-
 macro(maker ext src)
 set(LAUNCH_EXECUTABLE_NAME ${HARDWARE_PLATFORM}-${ext})
 add_executable(${LAUNCH_EXECUTABLE_NAME}
@@ -44,11 +41,11 @@ add_executable(${LAUNCH_EXECUTABLE_NAME}
 target_include_directories(${LAUNCH_EXECUTABLE_NAME} PRIVATE source device_drivers utilities)
 add_object_dependencies(${LAUNCH_EXECUTABLE_NAME} board sdk_drivers)
 configure_file("${CMAKE_SOURCE_DIR}/launch.cfg" "${CMAKE_BINARY_DIR}/${LAUNCH_EXECUTABLE_NAME}.launch")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Xlinker -Map=${LAUNCH_EXECUTABLE_NAME}.map")
 endmacro(maker)
 
 maker("demo-HAL"  "source/demo_HAL.cpp")
 maker("statechart"  "source/statechart.cpp")
 
-
 copy_linker_scripts()
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Xlinker -Map=${LAUNCH_EXECUTABLE_NAME}.map")
+
