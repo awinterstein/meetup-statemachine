@@ -18,17 +18,36 @@ using namespace std::chrono_literals;
 template <uint32_t pitBase, clock_name_t clockSource, uint32_t secondsDowncountingMax, typename msGetter>
 class MonotonicClock {
 public:
+
+#if defined(FSL_FEATURE_PIT_HAS_LIFETIME_TIMER) && FSL_FEATURE_PIT_HAS_LIFETIME_TIMER
+
 	static std::chrono::milliseconds milliseconds()
 	{
 		const auto instance = reinterpret_cast<PIT_Type*>(pitBase);
-		return convertLifeTimeToTime(PIT_GetLifetimeTimerCount(instance));
+		const auto count	= PIT_GetLifetimeTimerCount(instance);
+		return convertLifeTimeToTime(count);
 	}
+
+#else
+
+	static std::chrono::milliseconds milliseconds()
+	{
+		const auto instance = reinterpret_cast<PIT_Type*>(pitBase);
+		const auto high		= PIT_GetCurrentTimerCount(instance, kPIT_Chnl_1);
+		const auto low		= PIT_GetCurrentTimerCount(instance, kPIT_Chnl_0);
+		const auto count	= (static_cast<uint64_t>(high) << 32) | low;
+		return convertLifeTimeToTime(count);
+	}
+
+#endif
+
 
 	static void delay (std::chrono::milliseconds msToBusyWait)
 	{
 		const auto start = milliseconds();
 		while (milliseconds() - start < msToBusyWait) {};
 	}
+
 private:
 	static std::chrono::milliseconds convertLifeTimeToTime (uint64_t liveTimeCount)
 	{
