@@ -4,5 +4,6 @@
 #include <HAL.hpp>
 
 void setup();
+void finish();
 
 #endif
