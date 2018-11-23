@@ -13,7 +13,7 @@
 #include <pin_mux.h>
 #include <clock_config.h>
 
-#include "MK28F15.h"
+#include <fsl_device_registers.h>
 
 #include <MonotonicClock.h>
 #include <CharDisplay.h>
