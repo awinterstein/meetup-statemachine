@@ -26,22 +26,29 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -fno-common -g3 -Wall -fmessage-length=0 -f
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -nostdlib ${EXTRA_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "-Xlinker --gc-sections -Xlinker -print-memory-usage")
 
-set(LAUNCH_EXECUTABLE_NAME ${HARDWARE_PLATFORM})
-
 add_subdirectory(board/${HARDWARE_PLATFORM}) 
 add_subdirectory(sdk_drivers/${HARDWARE_PLATFORM})
 
-add_executable(${HARDWARE_PLATFORM}-demo-HAL
-  source/demo_HAL.cpp
+
+
+# --------------------------------------------------
+
+macro(maker ext src)
+set(LAUNCH_EXECUTABLE_NAME ${HARDWARE_PLATFORM}-${ext})
+add_executable(${LAUNCH_EXECUTABLE_NAME}
+  ${src}
   source/setup.cpp
 	source/semihost_hardfault.c
 	$<TARGET_OBJECTS:board>
-	$<TARGET_OBJECTS:sdk_drivers>)
-            
-      
-target_include_directories(${HARDWARE_PLATFORM}-demo-HAL PRIVATE source device_drivers utilities)
-add_object_dependencies(${HARDWARE_PLATFORM}-demo-HAL board sdk_drivers)
-
+	$<TARGET_OBJECTS:sdk_drivers>)         
+target_include_directories(${LAUNCH_EXECUTABLE_NAME} PRIVATE source device_drivers utilities)
+add_object_dependencies(${LAUNCH_EXECUTABLE_NAME} board sdk_drivers)
 configure_file("${CMAKE_SOURCE_DIR}/launch.cfg" "${CMAKE_BINARY_DIR}/${LAUNCH_EXECUTABLE_NAME}.launch")
+endmacro(maker)
+
+maker("demo-HAL"  "source/demo_HAL.cpp")
+maker("statechart"  "source/statechart.cpp")
+
+
 copy_linker_scripts()
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Xlinker -Map=${LAUNCH_EXECUTABLE_NAME}.map")
