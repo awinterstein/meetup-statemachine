@@ -44,14 +44,10 @@ configure_file("${CMAKE_SOURCE_DIR}/launch.cfg" "${CMAKE_BINARY_DIR}/${LAUNCH_EX
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Xlinker -Map=${LAUNCH_EXECUTABLE_NAME}.map")
 endmacro(maker)
 
-
-
-
-#add_executable(MyExe source/generated_main.cpp ${CMAKE_CURRENT_BINARY_DIR}/__header.h)
-maker("DSL" source/generated_main.cpp ${CMAKE_CURRENT_BINARY_DIR}/__header.h)
-maker("demo-HAL"  "source/demo_HAL.cpp")
+maker("DSL"         "source/generated_main.cpp" ${CMAKE_CURRENT_BINARY_DIR}/__header.h)
+maker("demo-HAL"    "source/demo_HAL.cpp")
 maker("statechart"  "source/statechart.cpp")
-maker("MSM"  "source/MSM.cpp")
+maker("MSM"         "source/MSM.cpp")
 
 
 add_custom_target(

@@ -84,7 +84,7 @@ void statemachine_main()
   myWatch.initiate();
   HAL::DISPLAY::writeTopLine("EvStartStop");
   myWatch.process_event( EvStartStop() );
-  HAL::DISPLAY::writeTopLine("EvStartStop");
+  HAL::DISPLAY::writeTopLine("EvStartStop");  
   myWatch.process_event( EvStartStop() );
   HAL::DISPLAY::writeTopLine("EvStartStop");
   myWatch.process_event( EvStartStop() );
