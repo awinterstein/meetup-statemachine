@@ -7,8 +7,8 @@
 
 units::micros currentTimeMicros()
 {
-  const auto now = HAL::MonoClock::milliseconds();
-  return now.count() * 1000;
+  const auto now = HAL::MonoClock::microseconds();
+  return now.count();
 }
 
 static void* tmp = 0;
