@@ -47,11 +47,11 @@ public:
 	    for (int32_t i=3; i>0; i--)
 	    {
 	        writeByte(0x3);
-	        monoClock::delay(3ms);
+	        monoClock::delay(2000us);
 	    }
 
 	    writeByte(0x2);
-	    monoClock::delay(2ms);
+	    monoClock::delay(50us);
 
 	    writeCommand(0x28);
 	    writeCommand(0x0C);
@@ -62,28 +62,26 @@ public:
 	static void cls()
 	{
 		writeCommand(0x01);
-		monoClock::delay(3ms);
+		monoClock::delay(2000us);
 	}
 
 	template<typename... Targs>
 	static void writeTopLine(const char* fmt, Targs... args)
 	{
-		DisplayLine buffer;
-		buffer.fill(0x00);
-		snprintf(buffer.data(), buffer.size(), fmt, args...);
-		writeLine(0, buffer);
+		const auto line = writeBuffer(fmt, args...);
+		writeLine(0, line);
 	}
 
 	template<typename... Targs>
 	static void writeBottomLine(const char* fmt, Targs... args)
 	{
-		DisplayLine buffer;
-		buffer.fill(0x00);
-		snprintf(buffer.data(), buffer.size(), fmt, args...);
-		writeLine(1, buffer);
+		const auto line = writeBuffer(fmt, args...);
+		writeLine(1, line);
 	}
 
 private:
+	using TerminatedBuffer = std::array<char, sizeof(DisplayLine) + 1>;
+
 	static int32_t address (const uint32_t column, const uint32_t row)
 	{
 		return 0x80 + (row * 0x40) + column;
@@ -99,15 +97,15 @@ private:
 	static void writeByte (const int32_t value)
 	{
 		dataBus::setBytes(value >> 4);
-		monoClock::delay(2ms);
+		monoClock::delay(50us);
 	    enablaData::clr();
-	    monoClock::delay(2ms);
+	    monoClock::delay(50us);
 	    enablaData::set();
 
 		dataBus::setBytes(value >> 0);
-		monoClock::delay(2ms);
+		monoClock::delay(50us);
 	    enablaData::clr();
-	    monoClock::delay(2ms);
+	    monoClock::delay(50us);
 	    enablaData::set();
 	}
 
@@ -123,7 +121,7 @@ private:
 		writeByte(data);
 	}
 
-	static void writeLine (uint32_t row, DisplayLine& buffer)
+	static void writeLine (uint32_t row, const DisplayLine& buffer)
 	{
 	    for (auto& c : buffer)
 		{
@@ -137,6 +135,18 @@ private:
 				character(column, row, ' ');
 			}
 		}
+	}
+
+	template<typename... Targs>
+	static DisplayLine writeBuffer (const char* fmt, Targs... args)
+	{
+		TerminatedBuffer buffer;
+		snprintf(buffer.data(), buffer.size(), fmt, args...);
+
+		DisplayLine line;
+		line.fill(0x00);
+		strncpy(line.data(), buffer.data(),line.size());
+		return line;
 	}
 };
 
