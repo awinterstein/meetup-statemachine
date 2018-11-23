@@ -46,6 +46,7 @@ endmacro(maker)
 
 maker("demo-HAL"  "source/demo_HAL.cpp")
 maker("statechart"  "source/statechart.cpp")
+maker("MSM"  "source/MSM.cpp")
 
 copy_linker_scripts()
 
