@@ -31,13 +31,16 @@ set(LAUNCH_EXECUTABLE_NAME ${HARDWARE_PLATFORM})
 add_subdirectory(board/${HARDWARE_PLATFORM}) 
 add_subdirectory(sdk_drivers/${HARDWARE_PLATFORM})
 
-add_executable(${HARDWARE_PLATFORM}
-	source/stateMaschine.cpp
+add_executable(${HARDWARE_PLATFORM}-demo-HAL
+  source/demo_HAL.cpp
+  source/setup.cpp
 	source/semihost_hardfault.c
 	$<TARGET_OBJECTS:board>
 	$<TARGET_OBJECTS:sdk_drivers>)
-target_include_directories(${HARDWARE_PLATFORM} PRIVATE source device_drivers utilities)
-add_object_dependencies(${HARDWARE_PLATFORM} board sdk_drivers)
+            
+      
+target_include_directories(${HARDWARE_PLATFORM}-demo-HAL PRIVATE source device_drivers utilities)
+add_object_dependencies(${HARDWARE_PLATFORM}-demo-HAL board sdk_drivers)
 
 configure_file("${CMAKE_SOURCE_DIR}/launch.cfg" "${CMAKE_BINARY_DIR}/${LAUNCH_EXECUTABLE_NAME}.launch")
 copy_linker_scripts()
