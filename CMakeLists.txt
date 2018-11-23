@@ -44,9 +44,28 @@ configure_file("${CMAKE_SOURCE_DIR}/launch.cfg" "${CMAKE_BINARY_DIR}/${LAUNCH_EX
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Xlinker -Map=${LAUNCH_EXECUTABLE_NAME}.map")
 endmacro(maker)
 
+
+
+
+#add_executable(MyExe source/generated_main.cpp ${CMAKE_CURRENT_BINARY_DIR}/__header.h)
+maker("DSL" source/generated_main.cpp ${CMAKE_CURRENT_BINARY_DIR}/__header.h)
 maker("demo-HAL"  "source/demo_HAL.cpp")
 maker("statechart"  "source/statechart.cpp")
 maker("MSM"  "source/MSM.cpp")
+
+
+add_custom_target(
+        always_run_target ALL
+        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/__header.h
+)
+
+add_custom_command(
+        OUTPUT
+            ${CMAKE_CURRENT_BINARY_DIR}/__header.h
+            ${CMAKE_CURRENT_BINARY_DIR}/header.h
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/DSL/OriginalHeader.h
+        COMMAND cd ~/statemachine_meetup_2018/DSL && python3 ~/Projects/state_machine_DSL/src/generate.py blinky.sm -path:/home/zuehlke/Projects/state_machine_DSL/templates
+)
 
 copy_linker_scripts()
 

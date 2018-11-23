@@ -19,7 +19,7 @@ namespace example
     struct stop {};
     struct pause {};
     struct open_close {};
-  struct cd_detected {};
+    struct cd_detected {};
   
 
     // front-end: define the FSM structure 
