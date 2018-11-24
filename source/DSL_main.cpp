@@ -28,8 +28,24 @@ void *get_thread_local_state_machine_ptr()
 int main()
 {
   setup();
-
+    
   blinky::Blinky stateMachine;
+  stateMachine.initial_transition(stateMachine.state_union.bootup);
+
+
+  while (1)
+    {
+      if (HAL::BUTTON_LEFT::isPressed())
+	{
+	  stateMachine.emit(stateMachine.b1);
+	}
+      if (HAL::BUTTON_RIGHT::isPressed())
+	{
+	  stateMachine.emit(stateMachine.b2);
+	}      
+      stateMachine.process_delayed_events();
+    }
+
   
   finish();
   return 0;

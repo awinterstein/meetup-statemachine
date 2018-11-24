@@ -22,7 +22,6 @@
 #include <ADCChannelSingle.h>
 #include <ButtonOverADC.h>
 #include <Wire.h>
-
 #include <macro_push.h>
 
 namespace HAL {

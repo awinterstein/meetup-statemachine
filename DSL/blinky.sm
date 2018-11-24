@@ -1,79 +1,85 @@
 
-
 machine Blinky<modelcheckable>
 {
-  event b1;
-  event b2;
-  event blip;
-  Led led1;
-  Led led2;
- 
-  initial state bootup {
-    entry {
-      ::init(led1, 1);
-      ::init(led2, 2);
-      transition blink1;
-    }
-  }
+	event b1;
+	event b2;
+	event blip;
+	Led led1;
+	Led led2;
+	bool startedBlinking;
 
-  state blink1 {
-    entry {
-      led1.on();
-      after millis(500) emit blip;
-    }
-    
-    event blip {
-      led1.toggle();
-      after millis(500) emit blip;
-    }
-    
-    event b1 {
-      printf("ignoring button1 press, already in b1\n");
-    }
-    
-    event b2 {
-      transition blink2;
-    }
-    
-    exit {
-      led1.off();
-    }
-  }
-  
-  state blink2 {
-    entry {
-      led2.on();
-       after millis(500) emit blip;
-    }
-    
-    event blip {
-      led2.toggle();
-      after millis(500) emit blip;
-    }
-    
-    event b1 {
-      transition blink1;
-    }
-    
-    event b2 {
-      printf("ignoring button2 press, already in b2\n");
-    }
-    
-    exit {
-      led2.off();
-    }
-  }
+	initial state bootup {
+		entry {
+			startedBlinking = false;
+			::init(led1, 1);
+			::init(led2, 2);
+			transition blink1;
+		}
+	}
+
+	state blink1 {
+		entry {
+			printf("now in state blink1");
+			led1.on();
+			if (! startedBlinking)
+			{
+				startedBlinking = true;
+				after millis(2000) emit blip;
+			}
+			HAL::DISPLAY::writeBottomLine("blink1");
+		}
+
+		event blip {
+			led1.toggle();
+			after millis(4000) emit blip;
+		}
+
+		event b1 {
+			printf("ignoring button1 press, already in b1\n");
+		}
+
+		event b2 {
+			transition blink2;
+		}
+
+		exit {
+			led1.off();
+		}
+	}
+
+	state blink2 {
+		entry {
+			HAL::DISPLAY::writeBottomLine("blink2");
+			led2.on();
+		}
+
+		event blip {
+			led2.toggle();
+			after millis(1000) emit blip;
+		}
+
+		event b1 {
+			transition blink1;
+		}
+
+		event b2 {
+			printf("ignoring button2 press, already in b2\n");
+		}
+
+		exit {
+			led2.off();
+		}
+	}
 }
 
-
 testsuite buttonPresserTest {
-  test simple_race {
-    transition bootup;
-    assert led1.isOn();
-    wait millis(2000); 
-    emit b2;
-    wait millis(2000);
-    emit b1;
-    wait millis(2000);
-  }
+	test simple_race {
+		transition bootup;
+		assert led1.isOn();
+		wait millis(2000);
+		emit b2;
+		wait millis(2000);
+		emit b1;
+		wait millis(2000);
+	}
 }

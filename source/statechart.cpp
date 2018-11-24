@@ -4,70 +4,107 @@
 #include <boost/statechart/state_machine.hpp>
 #include <boost/statechart/simple_state.hpp>
 #include <boost/statechart/transition.hpp>
+#include <boost/mpl/list.hpp>
 
+namespace mpl = boost::mpl;
+
+using namespace std::chrono_literals;
 namespace sc = boost::statechart;
 
-struct EvStartStop : sc::event< EvStartStop > {};
-struct EvReset : sc::event< EvReset > {};
+struct EvStart: sc::event<EvStart>
+{
+};
+struct EvButtonLeft: sc::event<EvButtonLeft>
+{
+};
+struct EvButtonRight: sc::event<EvButtonRight>
+{
+};
+struct EvHeartBeat: sc::event<EvHeartBeat>
+{
+};
 
 struct Active;
-struct StopWatch : sc::state_machine< StopWatch, Active > {};
+struct Blinky: sc::state_machine<Blinky, Active>
+{
+};
 
-struct Stopped;
-
+struct Blink1;
+struct Blink2;
 
 // The simple_state class template accepts up to four parameters:
 // - The third parameter specifies the inner initial state, if
 //   there is one. Here, only Active has inner states, which is
-//   why it needs to pass its inner initial state Stopped to its
+//   why it needs to pass its inner initial state Blink2 to its
 //   base
 // - The fourth parameter specifies whether and what kind of
 //   history is kept
 
 // Active is the outermost state and therefore needs to pass the
 // state machine class it belongs to
-struct Active : sc::simple_state< Active, StopWatch, Stopped > {
-	  typedef sc::transition< EvReset, Active > reactions;
+struct Active: sc::simple_state<Active, Blinky, Blink1>
+{
+	typedef sc::transition<EvStart, Active> reactions;
 
 public:
-	  Active()
-	  {
-		  HAL::DISPLAY::writeTopLine("Active");
-	  }
-	  ~Active()
-	  {
-		  HAL::DISPLAY::writeTopLine("~Active");
-	  }
+	Active()
+	{
+		HAL::DISPLAY::writeBottomLine("Active");
+	}
 
-private:
-  double elapsedTime_ = 0;
+	void blib(const EvHeartBeat &)
+	{
+		printf("active-HB\n");
+	}
+
+	~Active()
+	{
+		HAL::DISPLAY::writeBottomLine("~Active");
+	}
 };
 
-// Stopped and Running both specify Active as their Context,
+// Blink2 and Blink1 both specify Active as their Context,
 // which makes them nested inside Active
-struct Running : sc::simple_state< Running, Active > {
-	typedef sc::transition< EvStartStop, Stopped > reactions;
+struct Blink1: sc::simple_state<Blink1, Active>
+{
+	typedef mpl::list<
+				sc::transition<EvButtonRight, Blink2>,
+				sc::transition<EvHeartBeat, Blink1, Active, &Active::blib>
+			> reactions;
 
-	Running()
-	  {
-		  HAL::DISPLAY::writeTopLine("Running");
-	  }
-	  ~Running()
-	  {
-		  HAL::DISPLAY::writeTopLine("~Running");
-	  }
+	Blink1()
+	{
+		HAL::DISPLAY::writeBottomLine("Blink1");
+		printf("blink1\n");
+	}
+
+	~Blink1()
+	{
+		printf("~blink1\n");
+		HAL::DISPLAY::writeBottomLine("~Blink1");
+	}
 };
 
-struct Stopped : sc::simple_state< Stopped, Active > {
-	typedef sc::transition< EvStartStop, Running > reactions;
-	Stopped()
-	  {
-		  HAL::DISPLAY::writeTopLine("Stopped");
-	  }
-	  ~Stopped()
-	  {
-		  HAL::DISPLAY::writeTopLine("~Stopped");
-	  }
+struct Blink2: sc::simple_state<Blink2, Active>
+{
+	typedef mpl::list<
+			sc::transition<EvButtonLeft, Blink1>,
+			sc::transition<EvHeartBeat, Blink2, Active, &Active::blib>
+			> reactions;
+
+	Blink2()
+	{
+		printf("blink2\n");
+
+		HAL::DISPLAY::writeBottomLine("Blink2");
+	}
+
+	~Blink2()
+	{
+		printf("~blink2\n");
+
+		HAL::DISPLAY::writeBottomLine("~Blink2");
+	}
 };
 
 // Because the context of a state must be a complete type (i.e.
@@ -80,23 +117,37 @@ struct Stopped : sc::simple_state< Stopped, Active > {
 
 void statemachine_main()
 {
-  StopWatch myWatch;
-  myWatch.initiate();
-  HAL::DISPLAY::writeTopLine("EvStartStop");
-  myWatch.process_event( EvStartStop() );
-  HAL::DISPLAY::writeTopLine("EvStartStop");  
-  myWatch.process_event( EvStartStop() );
-  HAL::DISPLAY::writeTopLine("EvStartStop");
-  myWatch.process_event( EvStartStop() );
-  HAL::DISPLAY::writeTopLine("sending EvReset");
-  myWatch.process_event( EvReset() );
-}
+	Blinky blinky;
+	blinky.initiate();
+	blinky.process_event(EvStart());
 
+	auto delay = 500ms;
+	auto nextHeartBeat = HAL::MonoClock::microseconds() + delay;
+
+	while (1)
+	{
+		if (HAL::BUTTON_LEFT::isPressed())
+		{
+			blinky.process_event(EvButtonLeft());
+		}
+		else if (HAL::BUTTON_RIGHT::isPressed())
+		{
+			blinky.process_event(EvButtonRight());
+		}
+
+		if (nextHeartBeat < HAL::MonoClock::microseconds())
+		{
+			printf("heart beat!\n");
+			nextHeartBeat = HAL::MonoClock::microseconds() + delay;
+			blinky.process_event(EvHeartBeat());
+		}
+	}
+}
 
 int main()
 {
-  setup();
-  statemachine_main();
-  finish();
-  return 0;
+	setup();
+	statemachine_main();
+	finish();
+	return 0;
 }
