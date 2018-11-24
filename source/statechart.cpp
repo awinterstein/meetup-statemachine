@@ -6,9 +6,9 @@
 #include <boost/statechart/transition.hpp>
 #include <boost/mpl/list.hpp>
 
-namespace mpl = boost::mpl;
-
 using namespace std::chrono_literals;
+
+namespace mpl = boost::mpl;
 namespace sc = boost::statechart;
 
 struct EvStart: sc::event<EvStart>
@@ -124,7 +124,7 @@ void statemachine_main()
 	auto delay = 500ms;
 	auto nextHeartBeat = HAL::MonoClock::microseconds() + delay;
 
-	while (1)
+	while (true)
 	{
 		if (HAL::BUTTON_LEFT::isPressed())
 		{
@@ -137,7 +137,6 @@ void statemachine_main()
 
 		if (nextHeartBeat < HAL::MonoClock::microseconds())
 		{
-			printf("heart beat!\n");
 			nextHeartBeat = HAL::MonoClock::microseconds() + delay;
 			blinky.process_event(EvHeartBeat());
 		}

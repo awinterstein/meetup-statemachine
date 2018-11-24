@@ -48,6 +48,7 @@ maker("DSL"         "source/DSL_main.cpp" ${CMAKE_CURRENT_BINARY_DIR}/__header.h
 maker("demo-HAL"    "source/demo_HAL.cpp")
 maker("statechart"  "source/statechart.cpp")
 maker("MSM"         "source/MSM.cpp")
+maker("SML"         "source/SML.cpp")
 
 
 add_custom_target(
