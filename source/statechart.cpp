@@ -54,6 +54,7 @@ struct Blink2;
 struct Active: sc::simple_state<Active, Blinky, Blink1>
 {
 	typedef sc::transition<EvStart, Active> reactions;
+	int32_t counter = 0;
 
 public:
 	Active()
@@ -63,7 +64,8 @@ public:
 
 	void blib(const EvHeartBeat &)
 	{
-		printf("active-HB\n");
+		counter++;
+		HAL::DISPLAY::writeTopLine("Blib: %ld", counter);
 	}
 
 	~Active()
