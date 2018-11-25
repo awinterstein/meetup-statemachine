@@ -54,6 +54,36 @@ using BLUE_IN		= Driver::GPIOPin<BOARD_INITPINS_BLUE_IN_GPIO,	BOARD_INITPINS_BLU
 using WIRE_RED		= Driver::Wire<RED_OUT, RED_IN, MonoClock>;
 using WIRE_BLUE		= Driver::Wire<BLUE_OUT, BLUE_IN, MonoClock>;
 
+template<typename T>
+class SimpleButton
+{
+private:
+	bool _alreadyHandedEventOver = false;
+
+public:
+	bool isPressed()
+	{
+		if (T::isPressed())
+		{
+			if (! _alreadyHandedEventOver)
+			{
+				_alreadyHandedEventOver = true;
+				return true;
+			}
+		}
+		else
+		{
+			_alreadyHandedEventOver = false;
+		}
+		return false;
+	}
+};
+
+extern SimpleButton<BUTTON_RIGHT> simpleRightButton;
+extern SimpleButton<BUTTON_LEFT> simpleLeftButton;
+extern SimpleButton<BUTTON_UP> simpleUpButton;
+extern SimpleButton<BUTTON_DOWN> simplDownButton;
+
 } // namespace HAL
 
 #include <macro_pop.h>

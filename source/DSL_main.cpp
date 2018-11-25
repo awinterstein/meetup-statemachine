@@ -41,11 +41,11 @@ int main()
 
 	while (true)
 	{
-		if (HAL::BUTTON_LEFT::isPressed())
+		if (HAL::simpleLeftButton.isPressed())
 		{
 			stateMachine.emit(stateMachine.b1);
 		}
-		if (HAL::BUTTON_RIGHT::isPressed())
+		if (HAL::simpleRightButton.isPressed())
 		{
 			stateMachine.emit(stateMachine.b2);
 		}

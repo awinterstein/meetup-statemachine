@@ -72,11 +72,11 @@ void statemachine_main()
 
 	while (true)
 	{
-		if (HAL::BUTTON_LEFT::isPressed())
+		if (HAL::simpleLeftButton.isPressed())
 		{
 			blinky.process_event(EvButtonLeft());
 		}
-		else if (HAL::BUTTON_RIGHT::isPressed())
+		else if (HAL::simpleRightButton.isPressed())
 		{
 			blinky.process_event(EvButtonRight());
 		}

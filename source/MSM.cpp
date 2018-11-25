@@ -45,7 +45,7 @@ struct Blinky: public msm::front::state_machine_def<Blinky>
 		template<class Event, class FSM>
 		void on_entry(Event const&, FSM&)
 		{
-			HAL::DISPLAY::writeTopLine("entering: Start");
+			HAL::DISPLAY::writeBottomLine("Start");
 		}
 		template<class Event, class FSM>
 		void on_exit(Event const&, FSM&)
@@ -58,12 +58,12 @@ struct Blinky: public msm::front::state_machine_def<Blinky>
 		template<class Event, class FSM>
 		void on_entry(Event const&, FSM&)
 		{
-			HAL::DISPLAY::writeTopLine("entering: Blink1");
+			HAL::DISPLAY::writeBottomLine("Blink1");
 		}
 		template<class Event, class FSM>
 		void on_exit(Event const&, FSM&)
 		{
-			HAL::DISPLAY::writeTopLine("leaving: Blink2");
+			HAL::DISPLAY::writeTopLine("leaving: Blink1");
 		}
 	};
 
@@ -72,7 +72,7 @@ struct Blinky: public msm::front::state_machine_def<Blinky>
 		template<class Event, class FSM>
 		void on_entry(Event const&, FSM&)
 		{
-			HAL::DISPLAY::writeTopLine("entering: Blink2");
+			HAL::DISPLAY::writeBottomLine("Blink2");
 		}
 		template<class Event, class FSM>
 		void on_exit(Event const&, FSM&)
@@ -87,7 +87,7 @@ struct Blinky: public msm::front::state_machine_def<Blinky>
 	// transition actions
 	void start(const StartEv&)
 	{
-		HAL::DISPLAY::writeTopLine("player::start_playback\n");
+		HAL::DISPLAY::writeTopLine("starting\n");
 	}
 	void left_button_pressed(const LeftButtonEv &)
 	{
@@ -119,7 +119,9 @@ struct Blinky: public msm::front::state_machine_def<Blinky>
 	template<class FSM, class Event>
 	void no_transition(Event const& e, FSM&, int state)
 	{
-		HAL::DISPLAY::writeTopLine("no transition from state %d on event %s",
+		HAL::DISPLAY::writeTopLine("no tr. in state %d on event %s",
+				state, typeid(e).name());
+		printf("no tr. in state %d on event %s",
 				state, typeid(e).name());
 	}
 };
@@ -134,18 +136,18 @@ void statemachine_main()
 	// needed to start the highest-level SM. This will call on_entry and mark the start of the SM
 	p.start();
 
-	auto delay = 500ms;
+	auto delay = 2000ms;
 	auto nextHeartBeat = HAL::MonoClock::microseconds() + delay;
 
 	p.process_event(StartEv());
 
 	while (true)
 	{
-		if (HAL::BUTTON_LEFT::isPressed())
+		if (HAL::simpleLeftButton.isPressed())
 		{
 			p.process_event(LeftButtonEv());
 		}
-		else if (HAL::BUTTON_RIGHT::isPressed())
+		else if (HAL::simpleRightButton.isPressed())
 		{
 			p.process_event(RightButtonEv());
 		}

@@ -34,8 +34,7 @@ macro(maker ext)
 set(LAUNCH_EXECUTABLE_NAME ${HARDWARE_PLATFORM}-${ext})
 add_executable(${LAUNCH_EXECUTABLE_NAME}
   ${ARGN}
-  source/setup.cpp
-	source/semihost_hardfault.c
+  source/setup.cpp source/semihost_hardfault.c device_drivers/HAL.cpp
 	$<TARGET_OBJECTS:board>
 	$<TARGET_OBJECTS:sdk_drivers>)         
 target_include_directories(${LAUNCH_EXECUTABLE_NAME} PRIVATE source device_drivers utilities ~/boost/include DSL DSL/support)
