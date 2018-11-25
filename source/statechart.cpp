@@ -1,3 +1,12 @@
+/**
+ *
+ * Find reference material here:
+ *
+ * 		https://www.boost.org/doc/libs/1_53_0/libs/statechart/doc/index.html
+ *
+ */
+
+
 #include "setup.hpp"
 
 #include <boost/statechart/event.hpp>

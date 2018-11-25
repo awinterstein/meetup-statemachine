@@ -1,3 +1,11 @@
+/**
+ *
+ * Find reference material here:
+ *
+ * 		https://github.com/rsveldema/state_machine_DSL
+ *
+ */
+
 #include "setup.hpp"
 
 #include "builtins_statemachine.hpp"
@@ -5,10 +13,9 @@
 
 #include "generated_state_machine_blinky.hpp"
 
-units::micros currentTimeMicros()
+std::chrono::microseconds currentTimeMicros()
 {
-	const auto now = HAL::MonoClock::microseconds();
-	return now.count();
+	return HAL::MonoClock::microseconds();
 }
 
 static void* tmp = 0;

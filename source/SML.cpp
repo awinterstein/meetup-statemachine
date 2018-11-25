@@ -1,3 +1,12 @@
+/**
+ *
+ * Find reference material here:
+ *
+ * 		http://boost-experimental.github.io/sml/examples/index.html#hello-world
+ *
+ */
+
+
 #include "setup.hpp"
 
 #include <boost/sml.hpp>

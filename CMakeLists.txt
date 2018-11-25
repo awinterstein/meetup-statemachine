@@ -30,21 +30,21 @@ add_subdirectory(board/${HARDWARE_PLATFORM})
 add_subdirectory(sdk_drivers/${HARDWARE_PLATFORM})
 
 
-macro(maker ext src)
+macro(maker ext)
 set(LAUNCH_EXECUTABLE_NAME ${HARDWARE_PLATFORM}-${ext})
 add_executable(${LAUNCH_EXECUTABLE_NAME}
-  ${src}
+  ${ARGN}
   source/setup.cpp
 	source/semihost_hardfault.c
 	$<TARGET_OBJECTS:board>
 	$<TARGET_OBJECTS:sdk_drivers>)         
-target_include_directories(${LAUNCH_EXECUTABLE_NAME} PRIVATE source device_drivers utilities ~/boost/include DSL support)
+target_include_directories(${LAUNCH_EXECUTABLE_NAME} PRIVATE source device_drivers utilities ~/boost/include DSL DSL/support)
 add_object_dependencies(${LAUNCH_EXECUTABLE_NAME} board sdk_drivers)
 configure_file("${CMAKE_SOURCE_DIR}/launch.cfg" "${CMAKE_BINARY_DIR}/${LAUNCH_EXECUTABLE_NAME}.launch")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Xlinker -Map=${LAUNCH_EXECUTABLE_NAME}.map")
 endmacro(maker)
 
-maker("DSL"         "source/DSL_main.cpp" ${CMAKE_CURRENT_BINARY_DIR}/__header.h)
+maker("DSL"         "source/DSL_main.cpp" ${CMAKE_CURRENT_SOURCE_DIR}/DSL/generated_state_machine_blinky.hpp)
 maker("demo-HAL"    "source/demo_HAL.cpp")
 maker("statechart"  "source/statechart.cpp")
 maker("MSM"         "source/MSM.cpp")
@@ -53,13 +53,13 @@ maker("SML"         "source/SML.cpp")
 
 add_custom_target(
         always_run_target ALL
-        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/__header.h
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/DSL/generated_state_machine_blinky.hpp
 )
 
 add_custom_command(
         OUTPUT
-            ${CMAKE_CURRENT_BINARY_DIR}/__header.h
-            ${CMAKE_CURRENT_BINARY_DIR}/header.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/DSL/generated_state_machine_blinky.hpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/DSL/generated_state_machine_blinky.cpp
         DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/DSL/blinky.sm
         COMMAND cd ~/statemachine_meetup_2018/DSL && python3 ~/Projects/state_machine_DSL/src/generate.py blinky.sm -path:/home/zuehlke/Projects/state_machine_DSL/templates
 )
