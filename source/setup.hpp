@@ -2,6 +2,7 @@
 #define SETUP_H___
 
 #include <HAL.hpp>
+#include <ButtonEventSource.hpp>
 
 void setup();
 void finish();
