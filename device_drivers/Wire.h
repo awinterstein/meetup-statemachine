@@ -20,7 +20,7 @@ public:
 	static bool isConnected()
 	{
 		invertPins();
-		monoClock::milliseconds(2ms);
+		monoClock::delay(500us);
 		return sourcePin::read() == sinkPin::read();
 	}
 
