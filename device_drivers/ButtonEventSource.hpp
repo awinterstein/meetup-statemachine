@@ -31,6 +31,9 @@ public:
 	}
 };
 
+template<typename T>
+bool ButtonEventSource<T>::_alreadyHandedEventOver = false;
+
 using EVENT_BUTTON_LEFT 	= ButtonEventSource<BUTTON_LEFT>;
 using EVENT_BUTTON_RIGHT 	= ButtonEventSource<BUTTON_RIGHT>;
 using EVENT_BUTTON_UP 		= ButtonEventSource<BUTTON_UP>;
@@ -38,10 +41,5 @@ using EVENT_BUTTON_DOWN 	= ButtonEventSource<BUTTON_DOWN>;
 
 }
 
-namespace HAL
-{
-	template<typename T>
-	bool ButtonEventSource<T>::_alreadyHandedEventOver = false;
-}
 
 #endif
