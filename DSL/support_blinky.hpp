@@ -17,17 +17,13 @@ public:
 
 	void on()
 	{
-		char buf[12];
-		snprintf(buf, sizeof(buf), "%d: on", id);
-		HAL::DISPLAY::writeTopLine(buf);
+		HAL::DISPLAY::writeTopLine("%d: on", id);
 		state = true;
 	}
 
 	void off()
 	{
-		char buf[12];
-		snprintf(buf, sizeof(buf), "%d: off", id);
-		HAL::DISPLAY::writeTopLine(buf);
+		HAL::DISPLAY::writeTopLine("%d: off", id);
 		state = false;
 	}
 
