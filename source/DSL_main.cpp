@@ -41,11 +41,11 @@ int main()
 
 	while (true)
 	{
-		if (HAL::EVENT_BUTTON_LEFT::shouldTriggerEvent())
+		if (HAL::EVENT_SOURCE_BUTTON_LEFT::shouldTriggerEvent())
 		{
 			stateMachine.emit(stateMachine.b1);
 		}
-		if (HAL::EVENT_BUTTON_RIGHT::shouldTriggerEvent())
+		if (HAL::EVENT_SOURCE_BUTTON_RIGHT::shouldTriggerEvent())
 		{
 			stateMachine.emit(stateMachine.b2);
 		}

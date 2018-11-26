@@ -143,11 +143,11 @@ void statemachine_main()
 
 	while (true)
 	{
-		if (HAL::EVENT_BUTTON_LEFT::shouldTriggerEvent())
+		if (HAL::EVENT_SOURCE_BUTTON_LEFT::shouldTriggerEvent())
 		{
 			p.process_event(LeftButtonEv());
 		}
-		else if (HAL::EVENT_BUTTON_RIGHT::shouldTriggerEvent())
+		else if (HAL::EVENT_SOURCE_BUTTON_RIGHT::shouldTriggerEvent())
 		{
 			p.process_event(RightButtonEv());
 		}
